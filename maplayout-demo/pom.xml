@@ -137,6 +137,8 @@
 
 		</plugins>
 
+		<finalName>MapLayoutDemo</finalName>
+
 	</build>
 
 	<profiles>

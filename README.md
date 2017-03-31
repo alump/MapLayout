@@ -1,10 +1,18 @@
-# MyComponent Add-on for Vaadin 7
+# MapLayout Add-on for Vaadin 8
 
-${ComponentClassName} is a UI component add-on for Vaadin 7.
+MapLayout will offer easy way to layout Vaadin components on top of maps. Eg. allowing to show information of factories around the world in dashboard applications and act as navigation map at the same time. Component will also allow to get click events to map items (eg. countries) and will allow to style map items (eg. highlight some countries).
+
+Add-on will use Apache 2 compatible maps, allowing free usage also in commercial apps.
+
+**NOTICE**: Still under development, no versions released yet. If you want to try add-on, please git clone and build it.
+
+## Source maps used
+
+[World Map with Countries](https://commons.wikimedia.org/wiki/File:BlankMap-World6.svg) (wikipedia.org) - Adapted from [Brianski](https://en.wikipedia.org/wiki/User:Brianski)'s File:[BlankMap-World3.svg](https://en.wikipedia.org/wiki/File:BlankMap-World3.svg) by [Canuckguy](https://en.wikipedia.org/wiki/User:Canuckguy) and originally based on [CIA's political world map](https://www.cia.gov/library/publications/the-world-factbook/docs/refmaps.html). Public Domain, 2017-03-31.
 
 ## Online demo
 
-Try the add-on demo at <url of the online demo>
+Try the add-on demo at http://app.siika.fi/MapLayoutDemo
 
 ## Download release
 
@@ -51,15 +59,20 @@ Debugging client side code in the maplayout-demo project:
  
 ## Release notes
 
-### Version 0.1.0-SNAPSHOT
-- ...
+### Version 0.1.0 (TBD)
+- Still under development
 - ...
 
 ## Roadmap
 
 This component is developed as a hobby with no public roadmap or any guarantees of upcoming releases. That said, the following features are planned for upcoming releases:
-- ...
-- ...
+- Adding components to layout (make it actually a layout)
+- Layout click events (to notify when child component is clicked)
+- Hover effects
+- Optimize SVG map (too large now)
+- Zooming (allows to adjust viewpoint via server API)
+- Latitude and Longitude in click events
+- More maps
 
 ## Issue tracking
 
@@ -89,22 +102,6 @@ Here is a simple example on how to try out the add-on component:
 
 <...>
 
-For a more comprehensive example, see src/test/java/org/vaadin/template/demo/DemoUI.java
-
-## Features
-
-### Feature A
-
-<...>
-
-### Feature B
-
-<...>
-
-### Feature C
-
-<...>
-
 ## API
 
-MyComponent JavaDoc is available online at <...>
+MapLayouts JavaDoc is available online at <...>
