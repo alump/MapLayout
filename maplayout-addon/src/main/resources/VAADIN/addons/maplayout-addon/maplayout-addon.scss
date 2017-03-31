@@ -1,0 +1,161 @@
+@mixin maplayout-addon {
+  .maplayout-addon {
+
+    /* Circles are used for small countries
+       Change opacity to > 0 show all circles */
+    .circlexx {
+      opacity:0;
+      fill:#e0e0e0;
+      stroke:#000000;
+      stroke-width:0.5;
+    }
+
+    /* Smaller circles around French DOMs and Chinese SARs
+       Change opacity to 1 to display all subnational circles. */
+    .subxx {
+      opacity:0;
+      stroke-width:0.3;
+    }
+
+    /* Circles around small countries, but with no permanent residents
+       Change opacity to 1 to display all circles. */
+    .noxx {
+      opacity:0;
+      fill:#e0e0e0;
+      stroke:#000000;
+      stroke-width:0.5;
+    }
+
+    /* land */
+    .landxx {
+      fill: #e0e0e0;
+      stroke:#ffffff;
+      stroke-width:0.5;
+      fill-rule:evenodd;
+    }
+
+    /* Styles for coastlines of islands with no borders */
+    .coastxx {
+      fill: #e0e0e0;
+      stroke:#ffffff;
+      stroke-width:0.3;
+      fill-rule:evenodd;
+    }
+
+
+    /* Styles for territories with limited or no recognition */
+    .limitxx {
+      fill: #e0e0e0;
+      stroke:#ffffff;
+      stroke-width:0;
+      fill-rule:evenodd;
+    }
+
+    /* Circles around small territories with limited or no recognition
+       Change opacity to 1 to display all circles. */
+    .unxx {
+      opacity:0;
+      fill:#e0e0e0;
+      stroke:#000000;
+      stroke-width:0.3;
+    }
+
+
+    /* Styles for territories without permanent population. */
+    .antxx {
+      fill: #e0e0e0;
+      stroke:#ffffff;
+      stroke-width:0;
+      fill-rule:evenodd;
+    }
+
+    /* Oceans and seas */
+    .oceanxx {
+      opacity: 1;
+      color: #000000;
+      fill:#ffffff;
+      stroke:#000;
+      stroke-width:0.5;
+      stroke-miterlimit:1;
+    }
+
+    /*
+     Reserved class names:
+     .eu - for members of European Union
+     .eaeu - for members of Euroasian Economical Union
+    */
+
+
+    /*
+     * Additional style rules
+     *
+     * The following are examples of colouring countries.  You can substitute these with your own styles to colour the countries on the map.
+     *
+     * Color a few countries:
+     *
+     * .gb, .au, .nc
+     * {
+     *    fill:       #ff0000;
+     * }
+     *
+     * Color a few small country circles (and the countries):
+     *
+     * .ms, .ky
+     * {
+     *    opacity:    1;
+     *    fill:       #ff0000;
+     * }
+     *
+     */
+
+    g.red, path.red {
+      fill: red;
+
+      .landxx, .coastxx {
+        fill: red;
+      }
+    }
+
+    g.yellow, path.yellow {
+      fill: yellow;
+
+      .landxx, .coastxx {
+        fill: yellow;
+      }
+    }
+
+    g.green, path.green {
+      fill: green;
+
+      .landxx, .coastxx {
+        fill: green;
+      }
+    }
+
+    g.blue, path.blue {
+      fill: blue;
+
+      .landxx, .coastxx {
+        fill: blue;
+      }
+    }
+
+    g.purple, path.purple {
+      fill: purple;
+
+      .landxx, .coastxx {
+        fill: purple;
+      }
+    }
+
+    &.blue-ocean {
+      background: #e1ffff;
+      background: -moz-radial-gradient(center, ellipse cover, #e1ffff 0%, #e1ffff 7%, #e1ffff 12%, #e6f8fd 30%, #c8eefb 54%, #bee4f8 75%, #b1d8f5 100%);
+      background: -webkit-radial-gradient(center, ellipse cover, #e1ffff 0%,#e1ffff 7%,#e1ffff 12%,#e6f8fd 30%,#c8eefb 54%,#bee4f8 75%,#b1d8f5 100%);
+
+      .oceanxx {
+        fill: #e1ffff;;
+      }
+    }
+  }
+}

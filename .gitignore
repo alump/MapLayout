@@ -1,0 +1,7 @@
+.idea/
+*.iml
+maplayout-addon/target/
+maplayout-demo/target/
+maplayout-demo/src/main/webapp/VAADIN/themes/demo/addons.scss
+*.scss.cache
+*.css
