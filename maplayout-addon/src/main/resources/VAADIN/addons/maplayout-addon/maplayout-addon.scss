@@ -1,6 +1,8 @@
 @mixin maplayout-addon {
   .maplayout-addon {
 
+    background: white;
+
     /* Circles are used for small countries
        Change opacity to > 0 show all circles */
     .circlexx {
@@ -148,6 +150,22 @@
       }
     }
 
+    g.cyan, path.cyan {
+      fill: cyan;
+
+      .landxx, .coastxx {
+        fill: cyan;
+      }
+    }
+
+    g.orange, path.orange {
+      fill: orange;
+
+      .landxx, .coastxx {
+        fill: orange;
+      }
+    }
+
     &.blue-ocean {
       background: #e1ffff;
       background: -moz-radial-gradient(center, ellipse cover, #e1ffff 0%, #e1ffff 7%, #e1ffff 12%, #e6f8fd 30%, #c8eefb 54%, #bee4f8 75%, #b1d8f5 100%);
@@ -155,6 +173,19 @@
 
       .oceanxx {
         fill: #e1ffff;;
+      }
+    }
+
+    &.clickable {
+      .landxx:hover, .coastxx:hover {
+        fill: #888;
+        cursor: pointer;
+      }
+    }
+
+    &.smooth-color-transition {
+      .landxx, .coastxx {
+        transition: fill 0.34s ease-out;
       }
     }
   }

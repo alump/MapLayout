@@ -4,6 +4,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Text;
 import com.google.gwt.http.client.*;
 import com.google.gwt.user.client.ui.Widget;
@@ -153,7 +154,6 @@ public class MapLayoutWidget extends Widget {
 
     public void setItemStyleNames(Map<String,Set<String>> styleNames) {
         if(styleNames == null || currentMapElement == null) {
-            LOGGER.severe("update extra styles cancelled");
             return;
         }
 
@@ -163,7 +163,11 @@ public class MapLayoutWidget extends Widget {
                 Collection<String> ids = entry.getValue();
                 ids.forEach(id -> {
                     Element child = findChildElement(currentMapElement, id);
-                    removeClassName(child, removedStyleName);
+                    if(child != null) {
+                        removeClassName(child, removedStyleName);
+                    } else {
+                        LOGGER.warning("Failed to find id '" + id + "' from map");
+                    }
                 });
             });
         }
@@ -178,11 +182,32 @@ public class MapLayoutWidget extends Widget {
 
             ids.forEach(id -> {
                 Element child = findChildElement(currentMapElement, id);
-                addClassName(child, styleName);
+                if(child != null) {
+                    addClassName(child, styleName);
+                } else {
+                    LOGGER.warning("Failed to find id '" + id + "' from map");
+                }
             });
             currentStyleNames.put(styleName, new HashSet<>(ids));
         });
 
+    }
+
+    public List<String> resolveItemIds(NativeEvent event) {
+        List<String> itemIds = new ArrayList<>();
+        try {
+            Element element = Element.as(event.getEventTarget());
+            while (element != null && element != currentMapElement) {
+                if(element.hasAttribute("id")) {
+                    itemIds.add(element.getAttribute("id"));
+                }
+
+                element = element.getParentElement();
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return itemIds;
     }
 
 }

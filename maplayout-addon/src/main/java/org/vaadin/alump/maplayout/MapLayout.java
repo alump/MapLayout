@@ -1,16 +1,16 @@
 package org.vaadin.alump.maplayout;
 
 import com.vaadin.server.Resource;
-import com.vaadin.shared.Connector;
 
 import com.vaadin.shared.MouseEventDetails;
-import org.vaadin.alump.maplayout.client.MapLayoutServerRpc;
-import org.vaadin.alump.maplayout.client.MapLayoutState;
+import com.vaadin.shared.Registration;
+import org.vaadin.alump.maplayout.client.shared.MapLayoutServerRpc;
+import org.vaadin.alump.maplayout.client.shared.MapLayoutState;
+import org.vaadin.alump.maplayout.client.shared.EventId;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Layout where you can overlay components to map
@@ -18,6 +18,7 @@ import java.util.stream.Stream;
 public class MapLayout extends com.vaadin.ui.AbstractComponent {
 
     private AtomicInteger resourceCounter = new AtomicInteger(0);
+    private List<MapLayoutClickListener> clickListeners = new ArrayList<>();
 
     private MapLayoutServerRpc serverRpc = new MapLayoutServerRpc() {
         @Override
@@ -26,11 +27,9 @@ public class MapLayout extends com.vaadin.ui.AbstractComponent {
         }
 
         @Override
-        public void onItemClicked(MouseEventDetails details, String itemId) {
-            MapLayoutClickEvent event = new MapLayoutClickEvent(MapLayout.this, details, itemId);
+        public void onItemClicked(MouseEventDetails details, List<String> itemIds) {
+            fireClick(details, itemIds);
         }
-
-
     };
 
     public MapLayout() {
@@ -142,5 +141,24 @@ public class MapLayout extends com.vaadin.ui.AbstractComponent {
 
     public void setAddTitles(boolean addTitles) {
         getState().addTitles = addTitles;
+    }
+
+    public Registration addMapLayoutClickListener(MapLayoutClickListener listener) {
+        return addListener(EventId.MAPLAYOUT_CLICK_EVENT_IDENTIFIER,
+                MapLayoutClickEvent.class, listener,
+                MapLayoutClickListener.MAP_LAYOUT_CLICK_METHOD);
+    }
+
+    public void removeMapLayoutClickListener(MapLayoutClickListener listener) {
+        removeListener(EventId.MAPLAYOUT_CLICK_EVENT_IDENTIFIER,
+                MapLayoutClickEvent.class, listener);
+    }
+
+    protected void fireClick() {
+        this.fireEvent(new MapLayoutClickEvent(this, null, null));
+    }
+
+    protected void fireClick(MouseEventDetails details, List<String> itemIds) {
+        this.fireEvent(new MapLayoutClickEvent(this, details, itemIds));
     }
 }
