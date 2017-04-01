@@ -2,6 +2,7 @@
   .maplayout-addon {
 
     background: white;
+    position: relative;
 
     /* Circles are used for small countries
        Change opacity to > 0 show all circles */
@@ -168,7 +169,7 @@
 
     &.blue-ocean {
       background: #e1ffff;
-      
+
       .oceanxx {
         fill: #e1ffff;;
       }
@@ -185,6 +186,13 @@
       .landxx, .coastxx {
         transition: fill 0.34s ease-out;
       }
+    }
+
+    .maplayout-child-wrapper {
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      transition: left 0.34s ease-out, top 0.34s ease-out;
     }
   }
 }

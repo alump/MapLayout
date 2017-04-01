@@ -1,6 +1,7 @@
 package org.vaadin.alump.maplayout.client;
 
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.user.client.ui.Widget;
 import com.vaadin.client.ComponentConnector;
 import com.vaadin.client.ConnectorHierarchyChangeEvent;
 import com.vaadin.client.MouseEventDetailsBuilder;
@@ -36,6 +37,10 @@ public class MapLayoutConnector extends AbstractLayoutConnector {
         @Override
         public void onInitialRenderDone(MapLayoutWidget widget) {
             getWidget().setItemStyleNames(getState().extraStyleNames);
+
+            getState().childCoordinates.forEach((child, coord) -> {
+               getWidget().move(((ComponentConnector)child).getWidget(), coord.x, coord.y);
+            });
         }
     };
 
@@ -88,6 +93,26 @@ public class MapLayoutConnector extends AbstractLayoutConnector {
     @Override
     public void onConnectorHierarchyChange(ConnectorHierarchyChangeEvent event) {
 
+        for (ComponentConnector child : event.getOldChildren()) {
+            if (child.getParent() != this) {
+                Widget widget = child.getWidget();
+                if (widget.isAttached()) {
+                    getWidget().remove(widget);
+                }
+            }
+        }
+
+        for (ComponentConnector child : getChildComponents()) {
+            if (child.getWidget().getParent() != getWidget()) {
+                MapLayoutChildCoords coords = getState().childCoordinates.get(child);
+
+                if(coords != null) {
+                    getWidget().add(child.getWidget(), coords.x, coords.y);
+                } else {
+                    getWidget().add(child.getWidget(), 0.0, 0.0);
+                }
+            }
+        }
     }
 
     @Override

@@ -2,10 +2,7 @@ package org.vaadin.alump.maplayout.client;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.dom.client.Text;
+import com.google.gwt.dom.client.*;
 import com.google.gwt.http.client.*;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -262,9 +259,48 @@ public class MapLayoutWidget extends ComplexPanel {
         return viewBoxY;
     }
 
+    public void add(Widget widget, Double viewBoxX, Double viewBoxY) {
+
+        DivElement wrapper = Document.get().createDivElement();
+        wrapper.addClassName("maplayout-child-wrapper");
+        getElement().appendChild(wrapper);
+
+        viewBoxToRelative(wrapper, viewBoxX, viewBoxY);
+
+        super.add(widget, wrapper);
+    }
+
+    public void move(Widget widget, Double viewBoxX, Double viewBoxY) {
+        if(widget.isAttached() && widget.getParent() == this) {
+            viewBoxToRelative(widget.getElement().getParentElement(), viewBoxX, viewBoxY);
+        }
+    }
+
     @Override
-    public void add(Widget widget) {
-        super.add(widget);
+    public boolean remove(Widget widget) {
+        if(widget.isAttached() && widget.getParent() == this) {
+            widget.getElement().getParentElement().removeFromParent();
+        }
+
+        return super.remove(widget);
+    }
+
+    public void viewBoxToRelative(Element element, Double x, Double y) {
+        if(viewBoxWidth != null && viewBoxWidth > 0) {
+            if(x == null) {
+                x = viewBoxMinX;
+            }
+            x = ((x - viewBoxMinX) / viewBoxWidth)* (double)getElement().getClientWidth();
+            element.getStyle().setLeft(x, Style.Unit.PX);
+        }
+
+        if(viewBoxHeight != null && viewBoxHeight > 0) {
+            if(y == null) {
+                y = viewBoxMinY;
+            }
+            y = ((y - viewBoxMinY) / viewBoxHeight)* (double)getElement().getClientHeight();
+            element.getStyle().setTop(y, Style.Unit.PX);
+        }
     }
 
 }

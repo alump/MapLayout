@@ -38,6 +38,10 @@ public class DemoUI extends UI {
         map.setStyleNamesToItems(MapColors.YELLOW, CountryCode.AR, CountryCode.PL);
         map.setWidth(100, Unit.PERCENTAGE);
 
+        map.addComponentToViewBox(new VaadinPin("San Jose"), 402.0, 427.0);
+        map.addComponentToViewBox(new VaadinPin("Turku"), 1420.5, 238.5);
+        map.addComponentToViewBox(new VaadinPin("Berlin"), 1361.0, 299.0);
+
         HorizontalLayout buttons = new HorizontalLayout();
         buttons.setSpacing(true);
 

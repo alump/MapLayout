@@ -28,6 +28,7 @@ public class WorldMap extends MapLayout<CountryCode> {
     }
 
     public WorldMap() {
+        // Using theme resource with static URL to allow caching on client side (large file)
         super(new ThemeResource("../../addons/maplayout-addon/maps/world.svg"),
                 new CountryCodeMapIdProvider());
     }

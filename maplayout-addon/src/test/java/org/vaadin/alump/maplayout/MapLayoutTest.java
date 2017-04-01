@@ -1,10 +1,10 @@
-package org.vaadin.alump;
+package org.vaadin.alump.maplayout;
 
 import junit.framework.Assert;
 import org.junit.Test;
 
 // JUnit tests here
-public class MyComponentTest {
+public class MapLayoutTest {
 
 	@Test
 	public void thisAlwaysPasses() {

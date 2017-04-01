@@ -5,10 +5,7 @@ import com.vaadin.server.Resource;
 import com.vaadin.shared.Registration;
 import com.vaadin.ui.AbstractLayout;
 import com.vaadin.ui.Component;
-import org.vaadin.alump.maplayout.client.shared.MapLayoutMouseEventDetails;
-import org.vaadin.alump.maplayout.client.shared.MapLayoutServerRpc;
-import org.vaadin.alump.maplayout.client.shared.MapLayoutState;
-import org.vaadin.alump.maplayout.client.shared.EventId;
+import org.vaadin.alump.maplayout.client.shared.*;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -21,7 +18,7 @@ public class MapLayout<T> extends AbstractLayout {
 
     private AtomicInteger resourceCounter = new AtomicInteger(0);
     private List<MapLayoutClickListener> clickListeners = new ArrayList<>();
-    private List<Component> childComponents = new ArrayList<>();
+    private Set<Component> childComponents = new LinkedHashSet();
     private MapIdProvider<T> mapIdProvider = null;
 
     private MapLayoutServerRpc serverRpc = new MapLayoutServerRpc() {
@@ -185,10 +182,35 @@ public class MapLayout<T> extends AbstractLayout {
 
     @Override
     public Iterator<Component> iterator() {
-        return Collections.unmodifiableList(childComponents).iterator();
+        return Collections.unmodifiableCollection(childComponents).iterator();
     }
 
     public Optional<T> getItemForMapId(String mapId) {
         return Optional.ofNullable(mapIdProvider).flatMap(p -> p.getItemFromMapId(mapId));
+    }
+
+    @Override
+    public void addComponent(Component component) {
+        addComponentToViewBox(component, 0.0, 0.0);
+    }
+
+    public void addComponentToViewBox(Component component, Double x, Double y) {
+        super.addComponent(component);
+
+        getState().childCoordinates.put(component, new MapLayoutChildCoords(x, y));
+        childComponents.add(component);
+    }
+
+    @Override
+    public void removeComponent(Component component) {
+        super.removeComponent(component);
+        getState().childCoordinates.remove(component);
+        childComponents.remove(component);
+    }
+
+    public void removeAllComponents() {
+        super.removeAllComponents();
+        getState().childCoordinates.clear();
+        childComponents.clear();
     }
 }
