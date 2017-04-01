@@ -7,6 +7,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Text;
 import com.google.gwt.http.client.*;
+import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.XMLParser;
@@ -17,7 +18,8 @@ import java.util.logging.Logger;
 /**
  * GWT widget part of MapLayout
  */
-public class MapLayoutWidget extends Widget {
+@SuppressWarnings("GWTStyleCheck")
+public class MapLayoutWidget extends ComplexPanel {
 
     private final static Logger LOGGER = Logger.getLogger(MapLayoutWidget.class.getName());
 
@@ -29,6 +31,11 @@ public class MapLayoutWidget extends Widget {
     protected static int widgetCounter = 0;
 
     protected MapLayoutWidgetListener listener;
+
+    protected Double viewBoxMinX = null;
+    protected Double viewBoxMinY = null;
+    protected Double viewBoxWidth = null;
+    protected Double viewBoxHeight = null;
 
     public MapLayoutWidget() {
 
@@ -74,13 +81,38 @@ public class MapLayoutWidget extends Widget {
         }
     }
 
+    private void parseViewBox(String viewBox) {
+        String[] parts = viewBox.split("\\s", 4);
+        viewBoxMinX = Double.parseDouble(parts[0]);
+        viewBoxMinY = Double.parseDouble(parts[1]);
+        viewBoxWidth = Double.parseDouble(parts[2]);
+        viewBoxHeight = Double.parseDouble(parts[3]);
+    }
+
     private void injectMap(com.google.gwt.xml.client.Document source) {
         if(currentMapElement != null) {
             currentMapElement.removeFromParent();
             currentMapElement = null;
         }
 
-        currentMapElement = injectInto(getElement(), source.getDocumentElement());
+        com.google.gwt.xml.client.Element root = source.getDocumentElement();
+
+        if(!root.getTagName().toLowerCase().equals("svg")) {
+            LOGGER.severe("Missing SVG tag");
+            return;
+        } else if(!root.hasAttribute("viewBox")) {
+            LOGGER.severe("Missing viewBox attribute");
+            return;
+        }
+
+        try {
+            parseViewBox(root.getAttribute("viewBox"));
+        } catch(Exception e) {
+            LOGGER.severe("Failed to parse viewBox");
+            return;
+        }
+
+        currentMapElement = injectInto(getElement(), root);
 
         currentMapElement.setId("maplayout-addon-" + (++widgetCounter));
     }
@@ -193,7 +225,7 @@ public class MapLayoutWidget extends Widget {
 
     }
 
-    public List<String> resolveItemIds(NativeEvent event) {
+    public List<String> resolveElementIds(NativeEvent event) {
         List<String> itemIds = new ArrayList<>();
         try {
             Element element = Element.as(event.getEventTarget());
@@ -208,6 +240,31 @@ public class MapLayoutWidget extends Widget {
             e.printStackTrace();
         }
         return itemIds;
+    }
+
+    public Double resolveViewBoxX(int relativeX) {
+        int clientWidth = getElement().getClientWidth();
+        if(clientWidth <= 0) {
+            return null;
+        }
+        //Fix this
+        Double viewBoxX = viewBoxMinX + ((double)relativeX) / ((double)clientWidth) * viewBoxWidth;
+        return viewBoxX;
+    }
+
+    public Double resolveViewBoxY(int relativeY) {
+        int clientHeight = getElement().getClientHeight();
+        if(clientHeight <= 0) {
+            return null;
+        }
+        //Fix this
+        Double viewBoxY = viewBoxMinY + ((double)relativeY) / ((double)clientHeight) * viewBoxHeight;
+        return viewBoxY;
+    }
+
+    @Override
+    public void add(Widget widget) {
+        super.add(widget);
     }
 
 }

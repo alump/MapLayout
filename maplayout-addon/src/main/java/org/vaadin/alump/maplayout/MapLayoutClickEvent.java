@@ -1,57 +1,61 @@
 package org.vaadin.alump.maplayout;
 
-import com.vaadin.shared.MouseEventDetails;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
+import org.vaadin.alump.maplayout.client.shared.MapLayoutMouseEventDetails;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Click event from MapLayout
  */
-public class MapLayoutClickEvent extends Button.ClickEvent {
+public class MapLayoutClickEvent<T> extends Button.ClickEvent {
 
     private final Component clickedComponent;
     private final Component childComponent;
-    private final List<String> mapItemIds;
+    private final MapLayoutMouseEventDetails details;
 
-    public MapLayoutClickEvent(Component source, MouseEventDetails mouseEventDetails, List<String> mapItemId) {
-        super(source, mouseEventDetails);
+    public MapLayoutClickEvent(MapLayout<T> source, MapLayoutMouseEventDetails details) {
+        super(source, details.getMouseEventDetails());
+        this.details = details;
         this.clickedComponent = null;
         this.childComponent = null;
-        this.mapItemIds = Collections.unmodifiableList(new ArrayList<>(mapItemId));
     }
 
-    public MapLayoutClickEvent(Component source, MouseEventDetails mouseEventDetails, Component clickedComponent,
-                               Component childComponent) {
-        super(source, mouseEventDetails);
-        this.clickedComponent = clickedComponent;
-        this.childComponent = childComponent;
-        this.mapItemIds = Collections.EMPTY_LIST;
+    public MapLayout<T> getMapLayout() {
+        return (MapLayout<T>)getSource();
     }
-
-    /*
-    public Optional<Double> getLongitude() {
-        return Optional.empty();
-    }
-
-    public Optional<Double> getLatitude() {
-        return Optional.empty();
-    }
-    */
 
     /**
      * Get clicked element IDs (outwards ordering, so inner most will be first in the list)
      * @return
      */
-    public List<String> getMapItemIds() {
-        return mapItemIds;
+    public List<String> getMapElementIds() {
+        return Collections.unmodifiableList(details.getElementIds());
     }
 
     public Optional<Component> getChildComponent() {
         return Optional.ofNullable(childComponent);
+    }
+
+    public Optional<Double> getViewBoxX() {
+        return Optional.ofNullable(details.getViewBoxX());
+    }
+
+    public Optional<Double> getViewBoxY() {
+        return Optional.ofNullable(details.getViewBoxY());
+    }
+
+    public List<T> getMapItems() {
+        return details.getElementIds().stream().map(id -> getMapLayout().getItemForMapId(id).orElse(null))
+                .filter(i -> i != null).collect(Collectors.toList());
+    }
+
+    public Optional<T> getMapItem() {
+        return details.getElementIds().stream().map(id -> getMapLayout().getItemForMapId(id).orElse(null))
+                .filter(i -> i != null).findFirst();
     }
 }

@@ -1,26 +1,27 @@
 package org.vaadin.alump.maplayout.client;
 
 import com.google.gwt.dom.client.NativeEvent;
+import com.vaadin.client.ComponentConnector;
+import com.vaadin.client.ConnectorHierarchyChangeEvent;
 import com.vaadin.client.MouseEventDetailsBuilder;
 import com.vaadin.client.communication.RpcProxy;
 import com.vaadin.client.communication.StateChangeEvent;
 import com.vaadin.client.ui.AbstractClickEventHandler;
-import com.vaadin.client.ui.AbstractComponentConnector;
+import com.vaadin.client.ui.AbstractLayoutConnector;
 import com.vaadin.shared.MouseEventDetails;
 import com.vaadin.shared.ui.Connect;
 import org.vaadin.alump.maplayout.MapLayout;
-import org.vaadin.alump.maplayout.client.shared.EventId;
-import org.vaadin.alump.maplayout.client.shared.MapLayoutClientRpc;
-import org.vaadin.alump.maplayout.client.shared.MapLayoutServerRpc;
-import org.vaadin.alump.maplayout.client.shared.MapLayoutState;
+import org.vaadin.alump.maplayout.client.shared.*;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
  * Client side connector for MapLayout
  */
+@SuppressWarnings("GwtInconsistentSerializableClass")
 @Connect(MapLayout.class)
-public class MapLayoutConnector extends AbstractComponentConnector {
+public class MapLayoutConnector extends AbstractLayoutConnector {
 
     private final static Logger LOGGER = Logger.getLogger(MapLayoutConnector.class.getName());
 
@@ -84,6 +85,16 @@ public class MapLayoutConnector extends AbstractComponentConnector {
         clickEventHandler.handleEventHandlerRegistration();
     }
 
+    @Override
+    public void onConnectorHierarchyChange(ConnectorHierarchyChangeEvent event) {
+
+    }
+
+    @Override
+    public void updateCaption(ComponentConnector connector) {
+        //ignored for now
+    }
+
     public class MapLayoutClickHandler extends AbstractClickEventHandler {
 
         public MapLayoutClickHandler(MapLayoutConnector connector) {
@@ -102,8 +113,13 @@ public class MapLayoutConnector extends AbstractComponentConnector {
         }
 
         protected void fireClick(NativeEvent event, MouseEventDetails details) {
-            getConnector().getRpcProxy(MapLayoutServerRpc.class).onItemClicked(details,
-                    getWidget().resolveItemIds(event));
+            MapLayoutMouseEventDetails fullDetails = new MapLayoutMouseEventDetails();
+            fullDetails.setMouseEventDetails(details);
+            fullDetails.setElementIds(getWidget().resolveElementIds(event));
+            fullDetails.setViewBoxX(getWidget().resolveViewBoxX(details.getRelativeX()));
+            fullDetails.setViewBoxY(getWidget().resolveViewBoxY(details.getRelativeY()));
+
+            getConnector().getRpcProxy(MapLayoutServerRpc.class).onItemClicked(fullDetails);
             event.stopPropagation();
         }
     }

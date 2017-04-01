@@ -20,7 +20,7 @@ import java.util.Set;
 @SuppressWarnings("serial")
 public class DemoUI extends UI {
 
-    private DefaultWorldMapLayout map;
+    private WorldMap map;
     private Set<CountryCode> clickToggled = new HashSet<>();
 
     @WebServlet(value = "/*", asyncSupported = true)
@@ -31,11 +31,11 @@ public class DemoUI extends UI {
     @Override
     protected void init(VaadinRequest request) {
 
-        map = new DefaultWorldMapLayout();
+        map = new WorldMap();
         map.addStyleName("smooth-color-transition");
         map.setAddTitles(false);
-        map.setCountryStyleNames(MapColors.GREEN, CountryCode.FI, CountryCode.US, CountryCode.DE);
-        map.setCountryStyleNames(MapColors.YELLOW, CountryCode.AR, CountryCode.PL);
+        map.setStyleNamesToItems(MapColors.GREEN, CountryCode.FI, CountryCode.US, CountryCode.DE);
+        map.setStyleNamesToItems(MapColors.YELLOW, CountryCode.AR, CountryCode.PL);
         map.setWidth(100, Unit.PERCENTAGE);
 
         HorizontalLayout buttons = new HorizontalLayout();
@@ -54,23 +54,23 @@ public class DemoUI extends UI {
 
         CheckBox highlightAustralia = new CheckBox("Australia", false);
         highlightAustralia.addValueChangeListener(e ->
-                map.setCountryStyleName(MapColors.PURPLE, CountryCode.AU, e.getValue()));
+                map.setStyleNameOfItem(MapColors.PURPLE, CountryCode.AU, e.getValue()));
 
         CheckBox highlightBrazil = new CheckBox("Brazil", false);
         highlightBrazil.addValueChangeListener(e ->
-                map.setCountryStyleName(MapColors.RED, CountryCode.BR, e.getValue()));
+                map.setStyleNameOfItem(MapColors.RED, CountryCode.BR, e.getValue()));
 
         CheckBox highlightChina = new CheckBox("China", false);
         highlightChina.addValueChangeListener(e ->
-                map.setCountryStyleName(MapColors.BLUE, CountryCode.CN, e.getValue()));
+                map.setStyleNameOfItem(MapColors.BLUE, CountryCode.CN, e.getValue()));
 
         CheckBox highlightDenmark = new CheckBox("Denmark", false);
         highlightDenmark.addValueChangeListener(e ->
-                map.setCountryStyleName(MapColors.YELLOW, CountryCode.DK, e.getValue()));
+                map.setStyleNameOfItem(MapColors.YELLOW, CountryCode.DK, e.getValue()));
 
         CheckBox highlightEgypt = new CheckBox("Egypt", false);
         highlightEgypt.addValueChangeListener(e ->
-                map.setCountryStyleName(MapColors.GREEN, CountryCode.EG, e.getValue()));
+                map.setStyleNameOfItem(MapColors.GREEN, CountryCode.EG, e.getValue()));
 
         CheckBox blueOcean = new CheckBox("Blue Ocean", false);
         blueOcean.addValueChangeListener(e -> map.setStyleName(MapColors.OCEAN_BLUE, e.getValue()));
@@ -88,8 +88,8 @@ public class DemoUI extends UI {
         setContent(layout);
     }
 
-    public void onMapLayoutClicked(MapLayoutClickEvent event) {
-        Optional<CountryCode> cc = map.resolveCountryCodeFromElementIds(event.getMapItemIds());
+    public void onMapLayoutClicked(MapLayoutClickEvent<CountryCode> event) {
+        Optional<CountryCode> cc = event.getMapItem();
         if(cc.isPresent()) {
             CountryCode code = cc.get();
             Notification.show(code.getName() + " clicked!");
@@ -98,9 +98,15 @@ public class DemoUI extends UI {
             } else {
                 clickToggled.add(code);
             }
-            map.setCountryStyleName(MapColors.ORANGE, code, clickToggled.contains(code));
+            map.setStyleNameOfItem(MapColors.ORANGE, code, clickToggled.contains(code));
         } else {
-            Notification.show("Click to " + event.getRelativeX() + " "  + event.getRelativeY());
+            Notification.show("Click to X:"
+                    + event.getClientX() + " "
+                    + event.getRelativeX()
+                    + " (" + event.getViewBoxX().map(d -> Long.toString(Math.round(d))).orElse("n/a") + "),  Y:"
+                    + event.getClientY() + " "
+                    + event.getRelativeY()
+                    + " (" + event.getViewBoxY().map(d -> Long.toString(Math.round(d))).orElse("n/a") + ")" );
         }
     }
 }

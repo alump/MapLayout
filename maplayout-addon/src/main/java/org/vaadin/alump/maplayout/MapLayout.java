@@ -2,8 +2,10 @@ package org.vaadin.alump.maplayout;
 
 import com.vaadin.server.Resource;
 
-import com.vaadin.shared.MouseEventDetails;
 import com.vaadin.shared.Registration;
+import com.vaadin.ui.AbstractLayout;
+import com.vaadin.ui.Component;
+import org.vaadin.alump.maplayout.client.shared.MapLayoutMouseEventDetails;
 import org.vaadin.alump.maplayout.client.shared.MapLayoutServerRpc;
 import org.vaadin.alump.maplayout.client.shared.MapLayoutState;
 import org.vaadin.alump.maplayout.client.shared.EventId;
@@ -15,10 +17,12 @@ import java.util.stream.Collectors;
 /**
  * Layout where you can overlay components to map
  */
-public class MapLayout extends com.vaadin.ui.AbstractComponent {
+public class MapLayout<T> extends AbstractLayout {
 
     private AtomicInteger resourceCounter = new AtomicInteger(0);
     private List<MapLayoutClickListener> clickListeners = new ArrayList<>();
+    private List<Component> childComponents = new ArrayList<>();
+    private MapIdProvider<T> mapIdProvider = null;
 
     private MapLayoutServerRpc serverRpc = new MapLayoutServerRpc() {
         @Override
@@ -27,8 +31,8 @@ public class MapLayout extends com.vaadin.ui.AbstractComponent {
         }
 
         @Override
-        public void onItemClicked(MouseEventDetails details, List<String> itemIds) {
-            fireClick(details, itemIds);
+        public void onItemClicked(MapLayoutMouseEventDetails details) {
+            fireClick(details);
         }
     };
 
@@ -36,9 +40,19 @@ public class MapLayout extends com.vaadin.ui.AbstractComponent {
         registerRpc(serverRpc, MapLayoutServerRpc.class);
     }
 
+    public MapLayout(MapIdProvider<T> mapIdProvider) {
+        registerRpc(serverRpc, MapLayoutServerRpc.class);
+        this.mapIdProvider = Objects.requireNonNull(mapIdProvider);
+    }
+
     public MapLayout(Resource background) {
         this();
         setMapBackground(background);
+    }
+
+    public MapLayout(Resource background, MapIdProvider<T> mapIdProvider) {
+        this(background);
+        this.mapIdProvider = Objects.requireNonNull(mapIdProvider);
     }
 
     public void beforeClientResponse(boolean initial) {
@@ -89,8 +103,8 @@ public class MapLayout extends com.vaadin.ui.AbstractComponent {
         return ids;
     }
 
-    public void setStyleNameOfItem(String styleName, MapIdProvider item, boolean enabled) {
-        setStyleNameOfId(styleName, Objects.requireNonNull(item).getMapId(), enabled);
+    public void setStyleNameOfItem(String styleName, T item, boolean enabled) {
+        setStyleNameOfId(styleName, mapIdProvider.getMapIdForItem(item), enabled);
     }
 
     public void setStyleNameOfId(String styleName, String id, boolean enabled) {
@@ -101,8 +115,8 @@ public class MapLayout extends com.vaadin.ui.AbstractComponent {
         }
     }
 
-    public void addStyleNameToItem(String styleName, MapIdProvider item) {
-        addStyleNameToId(styleName, Objects.requireNonNull(item).getMapId());
+    public void addStyleNameToItem(String styleName, T item) {
+        addStyleNameToId(styleName, mapIdProvider.getMapIdForItem(item));
     }
 
     public void addStyleNameToId(String styleName, String id) {
@@ -111,8 +125,8 @@ public class MapLayout extends com.vaadin.ui.AbstractComponent {
         }
     }
 
-    public void removeStyleNameFromItem(String stylename, MapIdProvider item) {
-        removeStyleNameFromId(stylename, Objects.requireNonNull(item).getMapId());
+    public void removeStyleNameFromItem(String stylename, T item) {
+        removeStyleNameFromId(stylename, mapIdProvider.getMapIdForItem(item));
     }
 
     public void removeStyleNameFromId(String stylename, String id) {
@@ -121,7 +135,7 @@ public class MapLayout extends com.vaadin.ui.AbstractComponent {
         }
     }
 
-    public void setStyleNamesToItems(String styleName, MapIdProvider ... items) {
+    public void setStyleNamesToItems(String styleName, T ... items) {
         setStyleNamesToItems(styleName, Arrays.asList(items));
     }
 
@@ -129,8 +143,9 @@ public class MapLayout extends com.vaadin.ui.AbstractComponent {
         setStyleNamesToIds(styleName, Arrays.asList(ids));
     }
 
-    public void setStyleNamesToItems(String styleName, Collection<MapIdProvider> items) {
-        setStyleNamesToIds(styleName, Objects.requireNonNull(items).stream().map(i -> i.getMapId()).collect(Collectors.toSet()));
+    public void setStyleNamesToItems(String styleName, Collection<T> items) {
+        setStyleNamesToIds(styleName, Objects.requireNonNull(items).stream()
+                .map(i -> mapIdProvider.getMapIdForItem(i)).collect(Collectors.toSet()));
     }
 
     public void setStyleNamesToIds(String styleName, Collection<String> ids) {
@@ -154,11 +169,26 @@ public class MapLayout extends com.vaadin.ui.AbstractComponent {
                 MapLayoutClickEvent.class, listener);
     }
 
-    protected void fireClick() {
-        this.fireEvent(new MapLayoutClickEvent(this, null, null));
+    protected void fireClick(MapLayoutMouseEventDetails details) {
+        this.fireEvent(new MapLayoutClickEvent(this, details));
     }
 
-    protected void fireClick(MouseEventDetails details, List<String> itemIds) {
-        this.fireEvent(new MapLayoutClickEvent(this, details, itemIds));
+    @Override
+    public void replaceComponent(Component oldComponent, Component newComponent) {
+        throw new IllegalStateException("Not implemented");
+    }
+
+    @Override
+    public int getComponentCount() {
+        return childComponents.size();
+    }
+
+    @Override
+    public Iterator<Component> iterator() {
+        return Collections.unmodifiableList(childComponents).iterator();
+    }
+
+    public Optional<T> getItemForMapId(String mapId) {
+        return Optional.ofNullable(mapIdProvider).flatMap(p -> p.getItemFromMapId(mapId));
     }
 }
