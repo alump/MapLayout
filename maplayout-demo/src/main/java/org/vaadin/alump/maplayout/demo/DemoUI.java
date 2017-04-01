@@ -38,10 +38,6 @@ public class DemoUI extends UI {
         map.setStyleNamesToItems(MapColors.YELLOW, CountryCode.AR, CountryCode.PL);
         map.setWidth(100, Unit.PERCENTAGE);
 
-        map.addComponentToViewBox(new VaadinPin("San Jose"), 402.0, 427.0);
-        map.addComponentToViewBox(new VaadinPin("Turku"), 1420.5, 238.5);
-        map.addComponentToViewBox(new VaadinPin("Berlin"), 1361.0, 299.0);
-
         HorizontalLayout buttons = new HorizontalLayout();
         buttons.setSpacing(true);
 
@@ -53,6 +49,17 @@ public class DemoUI extends UI {
             } else {
                 map.removeStyleName("clickable");
                 map.removeMapLayoutClickListener(this::onMapLayoutClicked);
+            }
+        });
+
+        CheckBox vaadinOffices = new CheckBox("Offices", false);
+        vaadinOffices.addValueChangeListener(e -> {
+            if(e.getValue()) {
+                map.addComponentToViewBox(new VaadinPin("San Jose"), 402.0, 426.0);
+                map.addComponentToViewBox(new VaadinPin("Turku"), 1420.5, 238.5);
+                map.addComponentToViewBox(new VaadinPin("Berlin"), 1361.0, 299.5);
+            } else {
+                removeVaadinPins();
             }
         });
 
@@ -79,7 +86,7 @@ public class DemoUI extends UI {
         CheckBox blueOcean = new CheckBox("Blue Ocean", false);
         blueOcean.addValueChangeListener(e -> map.setStyleName(MapColors.OCEAN_BLUE, e.getValue()));
 
-        buttons.addComponents(sayClicked,
+        buttons.addComponents(vaadinOffices, sayClicked,
                 highlightAustralia, highlightBrazil, highlightChina, highlightDenmark, highlightEgypt,
                 blueOcean);
 
@@ -112,5 +119,19 @@ public class DemoUI extends UI {
                     + event.getRelativeY()
                     + " (" + event.getViewBoxY().map(d -> Long.toString(Math.round(d))).orElse("n/a") + ")" );
         }
+    }
+
+    private void removeVaadinPins() {
+        removeAll(VaadinPin.class);
+    }
+
+    private void removeAll(Class<? extends Component> klass) {
+        Set<Component> remove = new HashSet<>();
+        map.iterator().forEachRemaining(c -> {
+            if(klass.isInstance(c)) {
+                remove.add(c);
+            }
+        });
+        remove.forEach(c -> map.removeComponent(c));
     }
 }

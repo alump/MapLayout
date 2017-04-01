@@ -4,7 +4,7 @@ MapLayout will offer easy way to layout Vaadin components on top of maps. Eg. al
 
 Add-on will use Apache 2 compatible maps, allowing free usage also in commercial apps.
 
-**NOTICE**: Still under development, no versions released yet. If you want to try add-on, please git clone and build it.
+**NOTICE**: Add-on is still on experimental stage, missing features and radical changes still possible.
 
 ## Source maps used
 
@@ -59,16 +59,16 @@ Debugging client side code in the maplayout-demo project:
  
 ## Release notes
 
-### Version 0.1.0 (TBD)
-- Still under development
-- ...
+### Version 0.1.0 (2017-03-31)
+- Initial release
+- Click events have coordinates and SVG element ids, but not child components yet
+- Only coordinate system for now is ViewBox based from SVG file
+- Locations of child components not yet updated when size of component changes
 
 ## Roadmap
 
 This component is developed as a hobby with no public roadmap or any guarantees of upcoming releases. That said, the following features are planned for upcoming releases:
-- Adding components to layout (make it actually a layout)
-- Layout click events (to notify when child component is clicked)
-- Hover effects
+- LayoutClickEvent type events (when child components are clicked)
 - Optimize SVG map (too large now)
 - Zooming (allows to adjust viewpoint via server API)
 - Latitude and Longitude in click events
