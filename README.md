@@ -6,6 +6,8 @@ Add-on will use Apache 2 compatible maps, allowing free usage also in commercial
 
 **NOTICE**: Add-on is still on experimental stage, missing features and radical changes still possible.
 
+Demo application uses Vaadin Charts, if you reuse code depending on Vaadin Charts remember to check license of Vaadin Charts.
+
 ## Source maps used
 
 [World Map with Countries](https://commons.wikimedia.org/wiki/File:BlankMap-World6.svg) (wikipedia.org) - Adapted from [Brianski](https://en.wikipedia.org/wiki/User:Brianski)'s File:[BlankMap-World3.svg](https://en.wikipedia.org/wiki/File:BlankMap-World3.svg) by [Canuckguy](https://en.wikipedia.org/wiki/User:Canuckguy) and originally based on [CIA's political world map](https://www.cia.gov/library/publications/the-world-factbook/docs/refmaps.html). Public Domain, 2017-03-31.
@@ -58,6 +60,11 @@ Debugging client side code in the maplayout-demo project:
   - You can access Java-sources and set breakpoints inside Chrome if you enable source maps from inspector settings.
  
 ## Release notes
+
+### Version 0.1.1 (2017-04-02)
+- Adding Vaadin Charts usage to demo app
+- Positions of child components work little better when resizing. Remember to only define size for one of the dimensions.
+- ViewBox can be now changed from server side, allowing to zoom in (or out)
 
 ### Version 0.1.0 (2017-03-31)
 - Initial release

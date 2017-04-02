@@ -290,17 +290,30 @@ public class MapLayoutWidget extends ComplexPanel {
             if(x == null) {
                 x = viewBoxMinX;
             }
-            x = ((x - viewBoxMinX) / viewBoxWidth)* (double)getElement().getClientWidth();
-            element.getStyle().setLeft(x, Style.Unit.PX);
+            //x = ((x - viewBoxMinX) / viewBoxWidth)* (double)getElement().getClientWidth();
+            x = (x - viewBoxMinX) / viewBoxWidth * 100.0;
+            element.getStyle().setLeft(x, Style.Unit.PCT);
         }
 
         if(viewBoxHeight != null && viewBoxHeight > 0) {
             if(y == null) {
                 y = viewBoxMinY;
             }
-            y = ((y - viewBoxMinY) / viewBoxHeight)* (double)getElement().getClientHeight();
-            element.getStyle().setTop(y, Style.Unit.PX);
+            //y = ((y - viewBoxMinY) / viewBoxHeight)* (double)getElement().getClientHeight();
+            y = (y - viewBoxMinY) / viewBoxHeight * 100.0;
+            element.getStyle().setTop(y, Style.Unit.PCT);
         }
     }
 
+    public void setViewBox(double minX, double minY, double width, double height) {
+        if(currentMapElement != null) {
+            this.viewBoxMinX = minX;
+            this.viewBoxMinY = minY;
+            this.viewBoxWidth = width;
+            this.viewBoxHeight = height;
+
+            String attrValue = minX + " " + minY + " " + width + " " + height;
+            currentMapElement.setAttribute("viewBox", attrValue);
+        }
+    }
 }

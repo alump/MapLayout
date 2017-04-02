@@ -87,6 +87,14 @@ public class MapLayoutConnector extends AbstractLayoutConnector {
             getWidget().setItemStyleNames(getState().extraStyleNames);
         }
 
+        if(event.hasPropertyChanged("viewBox")) {
+            getWidget().setViewBox(getState().viewBox.minX, getState().viewBox.minY, getState().viewBox.width,
+                    getState().viewBox.height);
+            getState().childCoordinates.forEach((child, coord) -> {
+                getWidget().move(((ComponentConnector)child).getWidget(), coord.x, coord.y);
+            });
+        }
+
         clickEventHandler.handleEventHandlerRegistration();
     }
 

@@ -63,6 +63,26 @@ public class DemoUI extends UI {
             }
         });
 
+        CheckBox charts = new CheckBox("Charts", false);
+        charts.addValueChangeListener(e -> {
+            if(e.getValue()) {
+                map.addComponentToViewBox(new VaadinChart("Sydney"), 2370.0, 1052.0);
+                map.addComponentToViewBox(new VaadinChart("Rio de Janeiro"), 945.0, 952.0);
+                map.addComponentToViewBox(new VaadinChart("Beijing"), 2115.0, 415.0);
+            } else {
+                removeVaadinCharts();
+            }
+        });
+
+        CheckBox zoom = new CheckBox("Zoom", false);
+        zoom.addValueChangeListener(e -> {
+            if(e.getValue()) {
+                map.setViewBox(280.0,80.0,2300.0,1150.0);
+            } else {
+                map.setViewBox(82.992,45.607,2528.5721,1428.3294);
+            }
+        });
+
         CheckBox highlightAustralia = new CheckBox("Australia", false);
         highlightAustralia.addValueChangeListener(e ->
                 map.setStyleNameOfItem(MapColors.PURPLE, CountryCode.AU, e.getValue()));
@@ -86,7 +106,7 @@ public class DemoUI extends UI {
         CheckBox blueOcean = new CheckBox("Blue Ocean", false);
         blueOcean.addValueChangeListener(e -> map.setStyleName(MapColors.OCEAN_BLUE, e.getValue()));
 
-        buttons.addComponents(vaadinOffices, sayClicked,
+        buttons.addComponents(vaadinOffices, charts, zoom, sayClicked,
                 highlightAustralia, highlightBrazil, highlightChina, highlightDenmark, highlightEgypt,
                 blueOcean);
 
@@ -123,6 +143,10 @@ public class DemoUI extends UI {
 
     private void removeVaadinPins() {
         removeAll(VaadinPin.class);
+    }
+
+    private void removeVaadinCharts() {
+        removeAll(VaadinChart.class);
     }
 
     private void removeAll(Class<? extends Component> klass) {

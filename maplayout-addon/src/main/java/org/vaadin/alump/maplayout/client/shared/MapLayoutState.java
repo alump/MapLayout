@@ -17,4 +17,6 @@ public class MapLayoutState extends AbstractLayoutState {
     public boolean addTitles = true;
 
     public Map<Connector, MapLayoutChildCoords> childCoordinates = new HashMap<>();
+
+    public MapLayoutViewBox viewBox = null;
 }

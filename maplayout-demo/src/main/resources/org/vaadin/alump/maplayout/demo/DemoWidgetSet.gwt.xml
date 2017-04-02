@@ -9,4 +9,6 @@
     
 
     <inherits name="org.vaadin.alump.maplayout.WidgetSet" />
+
+    <inherits name="com.vaadin.addon.charts.Widgetset" />
 </module>

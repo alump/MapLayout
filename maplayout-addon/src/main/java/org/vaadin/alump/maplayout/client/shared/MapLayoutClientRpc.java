@@ -7,5 +7,4 @@ import com.vaadin.shared.communication.ClientRpc;
  */
 public interface MapLayoutClientRpc extends ClientRpc {
 
-
 }

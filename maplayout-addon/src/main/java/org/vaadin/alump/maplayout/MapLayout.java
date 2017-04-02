@@ -213,4 +213,8 @@ public class MapLayout<T> extends AbstractLayout {
         getState().childCoordinates.clear();
         childComponents.clear();
     }
+
+    public void setViewBox(double minX, double minY, double width, double height) {
+        getState().viewBox = new MapLayoutViewBox(minX, minY, width, height);
+    }
 }
