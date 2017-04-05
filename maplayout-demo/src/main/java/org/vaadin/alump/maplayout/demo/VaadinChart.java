@@ -38,6 +38,7 @@ public class VaadinChart extends CssLayout {
         series.add(new DataSeriesItem("Blue Pixels", getValueForPie()));
         series.add(new DataSeriesItem("Red Pixels", getValueForPie()));
         series.add(new DataSeriesItem("Green Pixels", getValueForPie()));
+        series.add(new DataSeriesItem("Yellow Pixels", getValueForPie()));
         conf.addSeries(series);
 
         PlotOptionsPie optionsPie = new PlotOptionsPie();
@@ -51,6 +52,6 @@ public class VaadinChart extends CssLayout {
     }
 
     private static double getValueForPie() {
-        return Math.round(1.0 + RAND.nextDouble() * 80.0);
+        return Math.round(RAND.nextDouble() * 100.0);
     }
 }
