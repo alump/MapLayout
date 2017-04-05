@@ -1,9 +1,11 @@
 package org.vaadin.alump.maplayout.client.shared;
 
+import java.io.Serializable;
+
 /**
- * Created by alump on 02/04/2017.
+ * ViewBox coordinates
  */
-public class MapLayoutViewBox {
+public class MapLayoutViewBox implements Serializable {
     public Double minX;
     public Double minY;
     public Double width;

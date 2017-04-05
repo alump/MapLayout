@@ -13,5 +13,9 @@ public interface MapLayoutClickListener extends Serializable {
             MapLayoutClickListener.class, "mapLayoutClick",
             new Class[]{MapLayoutClickEvent.class});
 
+    /**
+     * Callback called when user clicks on MapLayout
+     * @param event Event details
+     */
     void mapLayoutClick(MapLayoutClickEvent event);
 }
