@@ -1,6 +1,6 @@
 # MapLayout Add-on for Vaadin 8
 
-[![Build Status](https://siika.fi/jenkins/job/MapLayout%20(Vaadin)/badge/icon)](https://siika.fi/jenkins/job/MapLayout%20(Vaadin)/)
+[![Build Status](https://epic.siika.fi/jenkins/job/MapLayout%20(Vaadin)/badge/icon)](https://epic.siika.fi/jenkins/job/MapLayout%20(Vaadin)/)
 
 MapLayout will offer easy way to layout Vaadin components on top of maps. Eg. allowing to show information of factories around the world in dashboard applications and act as navigation map at the same time. Component will also allow to get click events to map items (eg. countries) and will allow to style map items (eg. highlight some countries).
 
