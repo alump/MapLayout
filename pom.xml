@@ -5,8 +5,8 @@
 	<groupId>org.vaadin.alump</groupId>
 	<artifactId>maplayout-root</artifactId>
 	<packaging>pom</packaging>
-	<version>0.1-SNAPSHOT</version>
-	<name>MyComponent Add-on Root Project</name>
+	<version>0.2-SNAPSHOT</version>
+	<name>MapLayout Add-on Root Project</name>
 
 	<prerequisites>
 		<maven>3</maven>

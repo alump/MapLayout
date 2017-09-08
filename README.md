@@ -25,6 +25,9 @@ add-on. All version of maps included and used on this add-on are licensed Apache
 
 ## Release notes
 
+### Version 0.2.1 (TBD)
+- TBD
+
 ### Version 0.2.0 (2017-09-07)
 - Second map: US States (Initial version, improvements will follow)
 - Minor theming improvements
