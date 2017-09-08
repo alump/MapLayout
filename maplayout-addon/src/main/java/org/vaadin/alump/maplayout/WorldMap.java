@@ -7,9 +7,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Default world map, currently only out-of-box supported map
+ * World map with countries
  */
 public class WorldMap extends MapLayout<CountryCode> {
+
+    public final static String SMOOTH_COLOR_TRANSITION_STYLENAME = "smooth-color-transition";
 
     public static class CountryCodeMapIdProvider implements MapIdProvider<CountryCode> {
 
@@ -29,7 +31,7 @@ public class WorldMap extends MapLayout<CountryCode> {
 
     public WorldMap() {
         // Using theme resource with static URL to allow caching on client side (large file)
-        super(new ThemeResource("../../addons/maplayout-addon/maps/world.svg"),
+        super(new ThemeResource("../../addons/maplayout-addon/maps/world.svg"), "world-map",
                 new CountryCodeMapIdProvider());
     }
 }

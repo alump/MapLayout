@@ -10,13 +10,36 @@ Add-on will use Apache 2 compatible maps, allowing free usage also in commercial
 
 Demo application uses Vaadin Charts, if you reuse code depending on Vaadin Charts remember to check license of Vaadin Charts.
 
+## Online demo
+
+Try the add-on demo at [app.siika.fi/MapLayoutDemo](http://app.siika.fi/MapLayoutDemo)
+
 ## Source maps used
+
+Source of original maps used on this add-on. All maps are modified to work with this
+add-on. All version of maps included and used on this add-on are licensed Apache 2.0.
 
 [World Map with Countries](https://commons.wikimedia.org/wiki/File:BlankMap-World6.svg) (wikipedia.org) - Adapted from [Brianski](https://en.wikipedia.org/wiki/User:Brianski)'s File:[BlankMap-World3.svg](https://en.wikipedia.org/wiki/File:BlankMap-World3.svg) by [Canuckguy](https://en.wikipedia.org/wiki/User:Canuckguy) and originally based on [CIA's political world map](https://www.cia.gov/library/publications/the-world-factbook/docs/refmaps.html). Public Domain, 2017-03-31.
 
-## Online demo
+[United States Public Domain Map](https://commons.wikimedia.org/wiki/File:United_States_Public_Domain_Map.svg) (wikipedia.org) - U.S. Government, additional modifications made by Offnfopt 
 
-Try the add-on demo at http://app.siika.fi/MapLayoutDemo
+## Release notes
+
+### Version 0.2.0 (2017-09-07)
+- Second map: US States (Initial version, improvements will follow)
+- Minor theming improvements
+- Fixes bug on Vaadin 8.1 (client side exception)
+
+### Version 0.1.1 (2017-04-02)
+- Adding Vaadin Charts usage to demo app
+- Positions of child components work little better when resizing. Remember to only define size for one of the dimensions.
+- ViewBox can be now changed from server side, allowing to zoom in (or out)
+
+### Version 0.1.0 (2017-03-31)
+- Initial release
+- Click events have coordinates and SVG element ids, but not child components yet
+- Only coordinate system for now is ViewBox based from SVG file
+- Locations of child components not yet updated when size of component changes
 
 ## Download release
 
@@ -60,22 +83,7 @@ Debugging client side code in the maplayout-demo project:
   - run "mvn vaadin:run-codeserver" on a separate console while the application is running
   - activate Super Dev Mode in the debug window of the application or by adding ?superdevmode to the URL
   - You can access Java-sources and set breakpoints inside Chrome if you enable source maps from inspector settings.
- 
-## Release notes
 
-### Version 0.1.2 (TBD)
-- TBD
-
-### Version 0.1.1 (2017-04-02)
-- Adding Vaadin Charts usage to demo app
-- Positions of child components work little better when resizing. Remember to only define size for one of the dimensions.
-- ViewBox can be now changed from server side, allowing to zoom in (or out)
-
-### Version 0.1.0 (2017-03-31)
-- Initial release
-- Click events have coordinates and SVG element ids, but not child components yet
-- Only coordinate system for now is ViewBox based from SVG file
-- Locations of child components not yet updated when size of component changes
 
 ## Roadmap
 
@@ -103,17 +111,3 @@ Contributions are welcome, but there are no guarantees that they are accepted as
 ## License & Author
 
 Add-on is distributed under Apache License 2.0. For license terms, see LICENSE.txt.
-
-MyComponent is written by <...>
-
-# Developer Guide
-
-## Getting started
-
-Here is a simple example on how to try out the add-on component:
-
-<...>
-
-## API
-
-MapLayouts JavaDoc is available online at <...>

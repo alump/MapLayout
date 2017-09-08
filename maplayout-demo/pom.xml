@@ -5,7 +5,7 @@
 	<groupId>org.vaadin.alump</groupId>
 	<artifactId>maplayout-demo</artifactId>
 	<packaging>war</packaging>
-	<version>0.1.2-SNAPSHOT</version>
+	<version>0.2.0</version>
 	<name>MapLayout Add-on Demo</name>
 
 	<prerequisites>
@@ -16,8 +16,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<vaadin.version>8.0.3</vaadin.version>
-		<vaadin.plugin.version>8.0.3</vaadin.plugin.version>
+		<vaadin.version>8.1.2</vaadin.version>
+		<vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
 		<jetty.plugin.version>9.3.9.v20160517</jetty.plugin.version>
 	</properties>
 
@@ -30,7 +30,7 @@
 		<url>git://github.com/alump/MapLayout.git</url>
 		<connection>scm:git:git://github.com/alump/MapLayout.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com:/alump/MapLayout.git</developerConnection>
-		<tag>MyComponent add-on for Vaadin</tag>
+		<tag>MapLayout add-on for Vaadin</tag>
 	</scm>
 
 	<issueManagement>
@@ -116,6 +116,7 @@
 					<execution>
 						<configuration>
 							<!-- if you don't specify any modules, the plugin will find them -->
+							<!-- <style>PRETTY</style> -->
 						</configuration>
 						<goals>
 							<goal>resources</goal>

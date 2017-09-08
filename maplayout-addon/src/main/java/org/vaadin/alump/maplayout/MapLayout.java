@@ -16,6 +16,9 @@ import java.util.stream.Collectors;
  */
 public class MapLayout<T> extends AbstractLayout {
 
+    public final static String TRANSPARENT_BG_STYLENAME = "transparent-bg";
+    public final static String CLICKABLE_STYLENAME = "clickable";
+
     private AtomicInteger resourceCounter = new AtomicInteger(0);
     private List<MapLayoutClickListener> clickListeners = new ArrayList<>();
     private Set<Component> childComponents = new LinkedHashSet();
@@ -42,13 +45,14 @@ public class MapLayout<T> extends AbstractLayout {
         this.mapIdProvider = Objects.requireNonNull(mapIdProvider);
     }
 
-    public MapLayout(Resource background) {
+    public MapLayout(Resource background, String styleName) {
         this();
+        addStyleName(styleName);
         setMapBackground(background);
     }
 
-    public MapLayout(Resource background, MapIdProvider<T> mapIdProvider) {
-        this(background);
+    public MapLayout(Resource background, String styleName, MapIdProvider<T> mapIdProvider) {
+        this(background, styleName);
         this.mapIdProvider = Objects.requireNonNull(mapIdProvider);
     }
 

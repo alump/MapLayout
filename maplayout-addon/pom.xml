@@ -5,7 +5,7 @@
 	<groupId>org.vaadin.alump</groupId>
 	<artifactId>maplayout</artifactId>
 	<packaging>jar</packaging>
-	<version>0.1.2-SNAPSHOT</version>
+	<version>0.2.0</version>
 	<name>MapLayout</name>
 
 	<prerequisites>
@@ -16,8 +16,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<vaadin.version>8.0.3</vaadin.version>
-		<vaadin.plugin.version>8.0.3</vaadin.plugin.version>
+		<vaadin.version>8.1.2</vaadin.version>
+		<vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
 
 		<!-- ZIP Manifest fields -->
 		<Implementation-Version>${project.version}</Implementation-Version>
@@ -74,6 +74,7 @@
 			<version>${vaadin.version}</version>
 			<scope>provided</scope>
 		</dependency>
+		<!-- country codes -->
 		<dependency>
 			<groupId>com.neovisionaries</groupId>
 			<artifactId>nv-i18n</artifactId>

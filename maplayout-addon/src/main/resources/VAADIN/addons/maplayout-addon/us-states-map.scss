@@ -1,0 +1,78 @@
+@mixin us-states-map {
+
+  .state, .box {
+    fill: #e0e0e0;
+    stroke: #ffffff;
+    stroke-width: 0.5;
+    fill-rule: evenodd;
+    /* fill-rule:nonzero; */
+
+    &.blue {
+      fill: lightblue;
+    }
+    &.red {
+      fill: pink;
+    }
+    &.green {
+      fill: lightgreen;
+    }
+    &.yellow {
+      fill: yellow;
+    }
+    &.orange {
+      fill: orange;
+    }
+    &.purple {
+      fill: violet;
+    }
+    &.cyan {
+      fill: lightcyan;
+    }
+    &.white {
+      fill: white;
+    }
+    &.black {
+      fill: black;
+    }
+    &.transparent {
+      fill: none;
+    }
+
+  }
+
+  .text {
+    font-family:'Arial-BoldMT', 'Arial', sans-serif;
+    font-weight:700;
+    font-size:12px;
+    fill: black;
+    stroke: none;
+    pointer-events: none;
+  }
+
+  .line {
+    fill:none;
+    stroke:black;
+    stroke-width:1px;
+    stroke-linecap:round;
+    stroke-miterlimit:1.5;
+    pointer-events: none;
+  }
+
+  &.hide-texts {
+    .text, .line, .box {
+      display: none;
+    }
+  }
+
+  &.hide-pr {
+    #PR, #PRtext {
+      display: none;
+    }
+  }
+
+  &.smooth-color-transition {
+    .state {
+      transition: fill 0.34s ease-out;
+    }
+  }
+}
