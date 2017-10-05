@@ -2,16 +2,17 @@ package org.vaadin.alump.maplayout.demo;
 
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
-import org.vaadin.alump.maplayout.EuropeMap;
-import org.vaadin.alump.maplayout.MapLayout;
+import com.vaadin.ui.*;
+import org.vaadin.alump.maplayout.*;
+
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 public class EuropeView extends VerticalLayout implements View {
 
     public final static String VIEW_NAME = "europe";
+    private Set<EuropeanCountry> clickToggled = new HashSet<>();
 
     private EuropeMap map;
 
@@ -19,6 +20,7 @@ public class EuropeView extends VerticalLayout implements View {
         map = new EuropeMap();
         map.setWidth(600, Unit.PIXELS);
         map.addStyleName(MapLayout.TRANSPARENT_BG_STYLENAME);
+        map.addMapLayoutClickListener(this::onMapLayoutClicked);
 
         addComponents(createTopBar(), map);
     }
@@ -33,6 +35,28 @@ public class EuropeView extends VerticalLayout implements View {
 
         bar.addComponents(menu);
         return bar;
+    }
+
+    public void onMapLayoutClicked(MapLayoutClickEvent<EuropeanCountry> event) {
+        Optional<EuropeanCountry> cc = event.getMapItem();
+        if(cc.isPresent()) {
+            EuropeanCountry code = cc.get();
+            Notification.show(code.getCountryCode().getName() + " clicked!");
+            if(clickToggled.contains(code)) {
+                clickToggled.remove(code);
+            } else {
+                clickToggled.add(code);
+            }
+            map.setStyleNameOfItem(MapColors.ORANGE, code, clickToggled.contains(code));
+        } else {
+            Notification.show("Click to X:"
+                    + event.getClientX() + " "
+                    + event.getRelativeX()
+                    + " (" + event.getViewBoxX().map(d -> Long.toString(Math.round(d))).orElse("n/a") + "),  Y:"
+                    + event.getClientY() + " "
+                    + event.getRelativeY()
+                    + " (" + event.getViewBoxY().map(d -> Long.toString(Math.round(d))).orElse("n/a") + ")" );
+        }
     }
 
 

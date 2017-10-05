@@ -3,6 +3,37 @@
   .country {
     fill: rgb(192,192,192);
     fill-rule: nonzero;
+
+    &.blue {
+      fill: lightblue;
+    }
+    &.red {
+      fill: pink;
+    }
+    &.green {
+      fill: lightgreen;
+    }
+    &.yellow {
+      fill: yellow;
+    }
+    &.orange {
+      fill: orange;
+    }
+    &.purple {
+      fill: violet;
+    }
+    &.cyan {
+      fill: lightcyan;
+    }
+    &.white {
+      fill: white;
+    }
+    &.black {
+      fill: black;
+    }
+    &.transparent {
+      fill: none;
+    }
   }
 
   /* fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421; */

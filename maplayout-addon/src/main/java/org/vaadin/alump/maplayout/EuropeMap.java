@@ -1,12 +1,11 @@
 package org.vaadin.alump.maplayout;
 
-import com.neovisionaries.i18n.CountryCode;
 import com.vaadin.server.ThemeResource;
 
 import java.util.Objects;
 import java.util.Optional;
 
-public class EuropeMap extends MapLayout<CountryCode> {
+public class EuropeMap extends MapLayout<EuropeanCountry> {
 
     public final static String SMOOTH_COLOR_TRANSITION_STYLENAME = "smooth-color-transition";
 
@@ -16,19 +15,19 @@ public class EuropeMap extends MapLayout<CountryCode> {
                 new EuropeMap.CountryCodeMapIdProvider());
     }
 
-    public static class CountryCodeMapIdProvider implements MapIdProvider<CountryCode> {
+    public static class CountryCodeMapIdProvider implements MapIdProvider<EuropeanCountry> {
 
         @Override
-        public String getMapIdForItem(CountryCode countryCode) {
-            return Objects.requireNonNull(countryCode).getAlpha2().toLowerCase();
+        public String getMapIdForItem(EuropeanCountry countryCode) {
+            return Objects.requireNonNull(countryCode).getISO3166().toLowerCase();
         }
 
         @Override
-        public Optional<CountryCode> getItemFromMapId(String mapId) {
+        public Optional<EuropeanCountry> getItemFromMapId(String mapId) {
             if(mapId == null || mapId.length() != 2) {
                 return Optional.empty();
             }
-            return Optional.ofNullable(CountryCode.getByCode(mapId, false));
+            return Optional.ofNullable(EuropeanCountry.findForISO3166(mapId));
         }
     }
 }
