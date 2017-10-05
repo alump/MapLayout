@@ -19,6 +19,7 @@ public class EuropeView extends VerticalLayout implements View {
     public EuropeView() {
         map = new EuropeMap();
         map.setWidth(600, Unit.PIXELS);
+        map.addStyleName(EuropeMap.SMOOTH_COLOR_TRANSITION_STYLENAME);
         map.addStyleName(MapLayout.TRANSPARENT_BG_STYLENAME);
         map.addMapLayoutClickListener(this::onMapLayoutClicked);
 

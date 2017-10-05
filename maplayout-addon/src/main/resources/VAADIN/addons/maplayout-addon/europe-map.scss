@@ -36,6 +36,12 @@
     }
   }
 
+  &.smooth-color-transition {
+    .country {
+      transition: fill 0.34s ease-out;
+    }
+  }
+
   /* fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421; */
 
 }

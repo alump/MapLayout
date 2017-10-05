@@ -19,6 +19,7 @@ public enum EuropeanCountry {
     CYPRUS(CountryCode.CY, true),
     CZECH_REPUBLIC(CountryCode.CZ, true),
     DENMARK(CountryCode.DK, true),
+    ESTONIA(CountryCode.EE, true),
     FINLAND(CountryCode.FI, true),
     FRANCE(CountryCode.FR, true),
     GEORGIA(CountryCode.GE, false),
@@ -80,7 +81,9 @@ public enum EuropeanCountry {
     public static EuropeanCountry findForISO3166(String iso3166) {
         String lowercase = iso3166.toLowerCase();
         return Arrays.asList(EuropeanCountry.values()).stream()
-                .filter(ec -> ec.getISO3166().toLowerCase().equals(lowercase)).findFirst().get();
+                .filter(ec -> ec.getISO3166().toLowerCase().equals(lowercase))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Invalid ISO 3166 code: " + iso3166));
     }
 
 }
