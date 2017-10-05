@@ -18,7 +18,7 @@ public class USStatesMap extends MapLayout<USState> {
             USState.CONNECTICUT, USState.NEW_JERSEY, USState.DELAWARE, USState.MARYLAND,
             USState.DISTRICT_OF_COLUMBIA));
 
-    public static class CountryCodeMapIdProvider implements MapIdProvider<USState> {
+    public static class USStateIdProvider implements MapIdProvider<USState> {
 
         @Override
         public String getMapIdForItem(USState countryCode) {
@@ -40,7 +40,7 @@ public class USStatesMap extends MapLayout<USState> {
     public USStatesMap() {
         // Using theme resource with static URL to allow caching on client side (large file)
         super(new ThemeResource("../../addons/maplayout-addon/maps/us-states.svg"), "us-states-map",
-                new USStatesMap.CountryCodeMapIdProvider());
+                new USStatesMap.USStateIdProvider());
     }
 
     @Override

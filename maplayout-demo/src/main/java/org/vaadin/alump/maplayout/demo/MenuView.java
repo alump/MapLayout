@@ -19,8 +19,9 @@ public class MenuView extends VerticalLayout implements View {
         header.addStyleName(ValoTheme.LABEL_H1);
         addComponent(header);
 
-        addComponent(createNavigationButton(WorldView.VIEW_NAME, "World Coutries Map"));
+        addComponent(createNavigationButton(WorldView.VIEW_NAME, "World Countries Map"));
         addComponent(createNavigationButton(USView.VIEW_NAME, "US States Map"));
+        addComponent(createNavigationButton(EuropeView.VIEW_NAME, "Europe Map"));
 
         Link gitHub = new Link("Project at GitHub",
                 new ExternalResource("https://github.com/alump/MapLayout"));

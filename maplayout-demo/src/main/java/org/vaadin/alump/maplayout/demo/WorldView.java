@@ -3,7 +3,6 @@ package org.vaadin.alump.maplayout.demo;
 import com.neovisionaries.i18n.CountryCode;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
-import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.*;
 import org.vaadin.alump.maplayout.MapColors;
 import org.vaadin.alump.maplayout.MapLayout;
@@ -112,10 +111,6 @@ public class WorldView extends VerticalLayout implements View {
         setMargin(true);
         setSpacing(true);
         addComponents(buttons, map);
-    }
-
-    @Override
-    public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
     }
 
     public void onMapLayoutClicked(MapLayoutClickEvent<CountryCode> event) {

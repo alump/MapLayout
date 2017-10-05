@@ -5,3 +5,4 @@ maplayout-demo/target/
 maplayout-demo/src/main/webapp/VAADIN/themes/demo/addons.scss
 *.scss.cache
 *.css
+.DS_Store

@@ -1,5 +1,6 @@
 @import "world-map";
 @import "us-states-map";
+@import "europe-map";
 
 @mixin maplayout-addon {
   .maplayout-addon {
@@ -17,6 +18,10 @@
 
     &.us-states-map {
       @include us-states-map;
+    }
+
+    &.europe-map {
+      @include europe-map;
     }
 
     .maplayout-child-wrapper {

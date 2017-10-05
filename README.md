@@ -23,10 +23,12 @@ add-on. All version of maps included and used on this add-on are licensed Apache
 
 [United States Public Domain Map](https://commons.wikimedia.org/wiki/File:United_States_Public_Domain_Map.svg) (wikipedia.org) - U.S. Government, additional modifications made by Offnfopt 
 
+[Blank map of Europe with Kosovo as in year 2008](https://commons.wikimedia.org/wiki/Category:SVG_maps_of_Europe#/media/File:Blank_political_map_Europe_in_2008_WF_(with_Kosovo).svg) (wikipedia.org) - by CIA WF European map.
+
 ## Release notes
 
 ### Version 0.2.1 (TBD)
-- TBD
+- Third map: Europe (WiP)
 
 ### Version 0.2.0 (2017-09-07)
 - Second map: US States (Initial version, improvements will follow)

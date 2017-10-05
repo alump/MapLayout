@@ -22,7 +22,7 @@ public class USView extends VerticalLayout implements View {
         map = new USStatesMap();
         map.addStyleName(USStatesMap.SMOOTH_COLOR_TRANSITION_STYLENAME);
         map.addStyleName(MapLayout.TRANSPARENT_BG_STYLENAME);
-        map.setWidth(100, Unit.PERCENTAGE);
+        map.setWidth(600, Unit.PIXELS);
 
         map.addMapLayoutClickListener(this::mapClicked);
 
@@ -77,10 +77,5 @@ public class USView extends VerticalLayout implements View {
                map.removeStyleNameFromItem(MapColors.RED, state);
            }
         });
-    }
-
-    @Override
-    public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
-
     }
 }

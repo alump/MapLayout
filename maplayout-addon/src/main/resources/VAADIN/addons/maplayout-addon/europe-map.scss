@@ -1,0 +1,10 @@
+@mixin europe-map {
+
+  .country {
+    fill: rgb(192,192,192);
+    fill-rule: nonzero;
+  }
+
+  /* fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421; */
+
+}
