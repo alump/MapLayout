@@ -7,6 +7,7 @@ import com.vaadin.ui.*;
 import org.vaadin.alump.maplayout.*;
 
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 public class USView extends VerticalLayout implements View {
@@ -16,6 +17,8 @@ public class USView extends VerticalLayout implements View {
     private USStatesMap map;
 
     private Set<USState> selectedStates = new HashSet<>();
+
+    private Random random = new Random(0xDEADBEEF);
 
     public USView() {
 
@@ -63,7 +66,20 @@ public class USView extends VerticalLayout implements View {
             }
         });
 
-        bar.addComponents(menu, hideText, hidePR);
+        Button shade = new Button("Shade");
+        shade.addClickListener(e -> {
+            USState.stream().forEach(s -> {
+                int randomColorValue = random.nextInt(208);
+                map.setStateColor(s, randomColorValue, randomColorValue, 255);
+            });
+        });
+
+        Button clearColor = new Button("Clear");
+        clearColor.addClickListener(e -> {
+            USState.stream().forEach(s -> map.clearStateColor(s));
+        });
+
+        bar.addComponents(menu, hideText, hidePR, shade, clearColor);
         return bar;
     }
 
@@ -72,9 +88,9 @@ public class USView extends VerticalLayout implements View {
            Notification.show("State " + state.getName() + " clicked");
            if(!selectedStates.remove(state)) {
                selectedStates.add(state);
-               map.addStyleNameToItem(MapColors.RED, state);
+               map.setStateColor(state, 255, 0, 0);
            } else {
-               map.removeStyleNameFromItem(MapColors.RED, state);
+               map.clearStateColor(state);
            }
         });
     }

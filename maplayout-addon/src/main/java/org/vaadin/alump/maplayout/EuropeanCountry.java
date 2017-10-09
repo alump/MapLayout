@@ -3,6 +3,7 @@ package org.vaadin.alump.maplayout;
 import com.neovisionaries.i18n.CountryCode;
 
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 public enum EuropeanCountry {
 
@@ -66,6 +67,10 @@ public enum EuropeanCountry {
         this.eu = eu;
     }
 
+    public boolean isLeavingEU() {
+        return this == UK;
+    }
+
     public CountryCode getCountryCode() {
         return cc;
     }
@@ -84,6 +89,10 @@ public enum EuropeanCountry {
                 .filter(ec -> ec.getISO3166().toLowerCase().equals(lowercase))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Invalid ISO 3166 code: " + iso3166));
+    }
+
+    public static Stream<EuropeanCountry> stream() {
+        return Arrays.stream(EuropeanCountry.values());
     }
 
 }

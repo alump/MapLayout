@@ -13,6 +13,7 @@ public class MapLayoutState extends AbstractLayoutState {
     public String mapResource = null;
 
     public Map<String,Set<String>> extraStyleNames = new HashMap<>();
+    public Map<String,Map<String,String>> extraStyles = new HashMap<>();
 
     public boolean addTitles = true;
 

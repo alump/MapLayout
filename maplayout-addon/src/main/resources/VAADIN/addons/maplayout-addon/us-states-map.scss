@@ -6,38 +6,6 @@
     stroke-width: 0.5;
     fill-rule: evenodd;
     /* fill-rule:nonzero; */
-
-    &.blue {
-      fill: lightblue;
-    }
-    &.red {
-      fill: pink;
-    }
-    &.green {
-      fill: lightgreen;
-    }
-    &.yellow {
-      fill: yellow;
-    }
-    &.orange {
-      fill: orange;
-    }
-    &.purple {
-      fill: violet;
-    }
-    &.cyan {
-      fill: lightcyan;
-    }
-    &.white {
-      fill: white;
-    }
-    &.black {
-      fill: black;
-    }
-    &.transparent {
-      fill: none;
-    }
-
   }
 
   .text {

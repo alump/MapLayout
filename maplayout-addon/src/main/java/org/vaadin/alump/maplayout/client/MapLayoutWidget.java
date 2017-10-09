@@ -24,6 +24,7 @@ public class MapLayoutWidget extends ComplexPanel {
     private boolean skipTitles = false;
 
     private Map<String,Set<String>> currentStyleNames = new HashMap<>();
+    private Map<String,Set<String>> currentStyles = new HashMap<>();
 
     protected static int widgetCounter = 0;
 
@@ -176,9 +177,19 @@ public class MapLayoutWidget extends ComplexPanel {
         element.classList.add(className);
     }-*/;
 
+    private static native void addStyle(JavaScriptObject element, String styleType, String value)
+    /*-{
+        element.style[styleType] = value;
+    }-*/;
+
     private static native void removeClassName(JavaScriptObject element, String className)
     /*-{
         element.classList.remove(className);
+    }-*/;
+
+    private static native void removeStyle(JavaScriptObject element, String styleName)
+    /*-{
+        element.style[styleName] = null;
     }-*/;
 
     public void setItemStyleNames(Map<String,Set<String>> styleNames) {
@@ -220,6 +231,50 @@ public class MapLayoutWidget extends ComplexPanel {
             currentStyleNames.put(styleName, new HashSet<>(ids));
         });
 
+    }
+
+    public void setItemStyles(Map<String,Map<String,String>> styles) {
+        if(styles == null || currentMapElement == null) {
+            return;
+        }
+
+        if(currentStyles != null) {
+            currentStyles.entrySet().forEach(entry -> {
+                final String elementID = entry.getKey();
+                final Set<String> styleTypes = entry.getValue();
+
+                Element child = findChildElement(currentMapElement, elementID);
+                if(child != null) {
+                    styleTypes.forEach(type -> {
+                        removeStyle(child, type);
+                    });
+                } else {
+                    LOGGER.warning("Failed to find id '" + elementID + "' from map");
+                }
+            });
+        }
+
+        currentStyles = new HashMap<>();
+        styles.forEach((id, elementStyles) -> {
+            if(elementStyles.isEmpty()) {
+                return;
+            }
+            Element element = findChildElement(currentMapElement, id);
+            if(element != null) {
+                elementStyles.forEach((styleType, value) -> {
+                    addStyle(element, styleType, value);
+
+                    Set<String> styleTypes = currentStyles.get(id);
+                    if (styleTypes == null) {
+                        styleTypes = new HashSet<>();
+                        currentStyles.put(id, styleTypes);
+                    }
+                    styleTypes.add(styleType);
+                });
+            } else {
+                LOGGER.warning("Failed find element with ID " + id);
+            }
+        });
     }
 
     public List<String> resolveElementIds(NativeEvent event) {

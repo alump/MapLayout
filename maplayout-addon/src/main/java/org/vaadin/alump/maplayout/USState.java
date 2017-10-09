@@ -1,5 +1,8 @@
 package org.vaadin.alump.maplayout;
 
+import java.util.Arrays;
+import java.util.stream.Stream;
+
 /**
  * Based on https://github.com/AustinC/UnitedStates by Austin Chamberlin
  */
@@ -69,6 +72,7 @@ public enum USState {
 
     /**
      * The full, name name of this state.
+     * @return Full name of state
      */
     public String getName() {
         return this.name;
@@ -76,6 +80,7 @@ public enum USState {
 
     /**
      * The abbreviated name of this state, e.g. "NY", or "WY".
+     * @return Abbreviated name of state
      */
     public String getAbbr() {
         return this.abbr;
@@ -99,5 +104,9 @@ public enum USState {
             }
         }
         return null;
+    }
+
+    public static Stream<USState> stream() {
+        return Arrays.stream(USState.values());
     }
 }

@@ -37,6 +37,7 @@ public class MapLayoutConnector extends AbstractLayoutConnector {
         @Override
         public void onInitialRenderDone(MapLayoutWidget widget) {
             getWidget().setItemStyleNames(getState().extraStyleNames);
+            getWidget().setItemStyles(getState().extraStyles);
 
             getState().childCoordinates.forEach((child, coord) -> {
                getWidget().move(((ComponentConnector)child).getWidget(), coord.x, coord.y);
@@ -83,8 +84,13 @@ public class MapLayoutConnector extends AbstractLayoutConnector {
             } else {
                 LOGGER.severe("Resource null?");
             }
-        } else if(getState().extraStyleNames != null) {
-            getWidget().setItemStyleNames(getState().extraStyleNames);
+        } else {
+            if(getState().extraStyleNames != null && event.hasPropertyChanged("extraStyleNames")) {
+                getWidget().setItemStyleNames(getState().extraStyleNames);
+            }
+            if(getState().extraStyles != null && event.hasPropertyChanged("extraStyles")) {
+                getWidget().setItemStyles(getState().extraStyles);
+            }
         }
 
         if(event.hasPropertyChanged("viewBox") && getState().viewBox != null) {

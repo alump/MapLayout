@@ -5,6 +5,9 @@ import com.vaadin.server.ThemeResource;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * Map of Europe with countries
+ */
 public class EuropeMap extends MapLayout<EuropeanCountry> {
 
     public final static String SMOOTH_COLOR_TRANSITION_STYLENAME = "smooth-color-transition";
@@ -29,5 +32,52 @@ public class EuropeMap extends MapLayout<EuropeanCountry> {
             }
             return Optional.ofNullable(EuropeanCountry.findForISO3166(mapId));
         }
+    }
+
+    /**
+     * Set color of country
+     * @param country Country changed
+     * @param red Red value of color (0-255)
+     * @param green Green value of color (0-255)
+     * @param blue Blue value of color (0-255)
+     */
+    public void setCountryColor(EuropeanCountry country, int red, int green, int blue) {
+        setCountryColor(country, getColor(red, green, blue));
+    }
+
+    /**
+     * Set color of country
+     * @param country Country changed
+     * @param color Color of country (eg. #00F, blue)
+     */
+    public void setCountryColor(EuropeanCountry country, String color) {
+        setCountryStyle(Objects.requireNonNull(country), "fill", Objects.requireNonNull(color));
+    }
+
+    /**
+     * Clear dynamic color of country
+     * @param country Country changed
+     */
+    public void clearCountryColor(EuropeanCountry country) {
+        removeCountryStyle(Objects.requireNonNull(country), "fill");
+    }
+
+    /**
+     * Set style value to given country
+     * @param country Country changed
+     * @param style Style changed (eg. fill, stroke)
+     * @param value Value changed (eg. blue)
+     */
+    public void setCountryStyle(EuropeanCountry country, String style, String value) {
+        setElementStyle(getElementID(country), style, value);
+    }
+
+    /**
+     * Remove style value from country
+     * @param country
+     * @param style
+     */
+    public void removeCountryStyle(EuropeanCountry country, String style) {
+        removeElementStyle(getElementID(country), style);
     }
 }

@@ -27,8 +27,11 @@ add-on. All version of maps included and used on this add-on are licensed Apache
 
 ## Release notes
 
-### Version 0.2.1 (TBD)
-- Third map: Europe (WiP)
+### Version 0.2.1 (2017-10-08)
+- Third map: Europe (countries)
+- Allow to define color of elements directly and injecting those as styles of elements
+- API on US State and Europe map to define color of items
+- Minor fixes
 
 ### Version 0.2.0 (2017-09-07)
 - Second map: US States (Initial version, improvements will follow)
@@ -45,6 +48,12 @@ add-on. All version of maps included and used on this add-on are licensed Apache
 - Click events have coordinates and SVG element ids, but not child components yet
 - Only coordinate system for now is ViewBox based from SVG file
 - Locations of child components not yet updated when size of component changes
+
+## Roadmap
+
+This component is developed as a hobby with no public roadmap or any guarantees of upcoming releases. That said, the following features are planned for upcoming releases:
+- Export current map as SVG
+- Improve world map (behind new maps right now) and has issues with transitions
 
 ## Download release
 
@@ -89,15 +98,6 @@ Debugging client side code in the maplayout-demo project:
   - activate Super Dev Mode in the debug window of the application or by adding ?superdevmode to the URL
   - You can access Java-sources and set breakpoints inside Chrome if you enable source maps from inspector settings.
 
-
-## Roadmap
-
-This component is developed as a hobby with no public roadmap or any guarantees of upcoming releases. That said, the following features are planned for upcoming releases:
-- LayoutClickEvent type events (when child components are clicked)
-- Optimize SVG map (too large now)
-- Zooming (allows to adjust viewpoint via server API)
-- Latitude and Longitude in click events
-- More maps
 
 ## Issue tracking
 

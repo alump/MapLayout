@@ -20,7 +20,6 @@ public class MapLayout<T> extends AbstractLayout {
     public final static String CLICKABLE_STYLENAME = "clickable";
 
     private AtomicInteger resourceCounter = new AtomicInteger(0);
-    private List<MapLayoutClickListener> clickListeners = new ArrayList<>();
     private Set<Component> childComponents = new LinkedHashSet();
     private MapIdProvider<T> mapIdProvider = null;
 
@@ -105,7 +104,7 @@ public class MapLayout<T> extends AbstractLayout {
     }
 
     public void setStyleNameOfItem(String styleName, T item, boolean enabled) {
-        setStyleNameOfId(styleName, mapIdProvider.getMapIdForItem(item), enabled);
+        setStyleNameOfId(styleName, getElementID(item), enabled);
     }
 
     public void setStyleNameOfId(String styleName, String id, boolean enabled) {
@@ -116,8 +115,12 @@ public class MapLayout<T> extends AbstractLayout {
         }
     }
 
+    protected String getElementID(T item) {
+        return mapIdProvider.getMapIdForItem(item);
+    }
+
     public void addStyleNameToItem(String styleName, T item) {
-        addStyleNameToId(styleName, mapIdProvider.getMapIdForItem(item));
+        addStyleNameToId(styleName, getElementID(item));
     }
 
     public void addStyleNameToId(String styleName, String id) {
@@ -127,7 +130,7 @@ public class MapLayout<T> extends AbstractLayout {
     }
 
     public void removeStyleNameFromItem(String stylename, T item) {
-        removeStyleNameFromId(stylename, mapIdProvider.getMapIdForItem(item));
+        removeStyleNameFromId(stylename, getElementID(item));
     }
 
     public void removeStyleNameFromId(String stylename, String id) {
@@ -146,7 +149,7 @@ public class MapLayout<T> extends AbstractLayout {
 
     public void setStyleNamesToItems(String styleName, Collection<T> items) {
         setStyleNamesToIds(styleName, Objects.requireNonNull(items).stream()
-                .map(i -> mapIdProvider.getMapIdForItem(i)).collect(Collectors.toSet()));
+                .map(i -> getElementID(i)).collect(Collectors.toSet()));
     }
 
     public void setStyleNamesToIds(String styleName, Collection<String> ids) {
@@ -220,5 +223,48 @@ public class MapLayout<T> extends AbstractLayout {
 
     public void setViewBox(double minX, double minY, double width, double height) {
         getState().viewBox = new MapLayoutViewBox(minX, minY, width, height);
+    }
+
+    /**
+     * Set style value of given element with given ID. To be overridden by implementation class with correct
+     * value to ID(s) mapping.
+     * @param id ID of element
+     * @param type Style type (eg. fill, stroke)
+     * @param value Value of style type (eg. blue)
+     */
+    protected void setElementStyle(String id, String type, String value) {
+        Map<String, String> styles = getState().extraStyles.get(Objects.requireNonNull(id));
+        if(styles == null) {
+            styles = new HashMap<>();
+            getState().extraStyles.put(id, styles);
+        }
+        styles.put(type, value);
+    }
+
+    /**
+     * Remove style value from element with ID
+     * @param id ID of element
+     * @param type Type removed (eg. fill, stroke)
+     */
+    protected void removeElementStyle(String id, String type) {
+        Optional.ofNullable(getState().extraStyles.get(id)).ifPresent(map -> {
+            map.remove(type);
+
+            if(map.isEmpty()) {
+                getState().extraStyles.remove(id);
+            }
+        });
+    }
+
+    protected static String getHex(int color) {
+        String hex = Integer.toHexString(Integer.min(Integer.max(0, color), 255));
+        if(hex.length() == 1) {
+            hex = "0" + hex;
+        }
+        return hex;
+    }
+
+    protected static String getColor(int red, int green, int blue) {
+        return "#" + getHex(red) + getHex(green) + getHex(blue);
     }
 }

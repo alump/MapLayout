@@ -31,7 +31,7 @@ public class MapLayoutClickEvent<T> extends Button.ClickEvent {
 
     /**
      * Get clicked element IDs (outwards ordering, so inner most will be first in the list)
-     * @return
+     * @return ID tree of clicked element and it's parents
      */
     public List<String> getMapElementIds() {
         return Collections.unmodifiableList(details.getElementIds());
