@@ -28,7 +28,7 @@ add-on. All version of maps included and used on this add-on are licensed Apache
 ## Release notes
 
 ### Version 0.2.2 (TBD)
-- TBD
+- Malta was invisible on European map, fixed
 
 ### Version 0.2.1 (2017-10-08)
 - Third map: Europe (countries)
