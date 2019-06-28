@@ -294,7 +294,7 @@ public class MapLayout<T> extends AbstractLayout {
 
     /**
      * Define content mode of tooltips
-     * @param contentMode
+     * @param contentMode Content mode of tooltips
      */
     public void setTooltipContentMode(ContentMode contentMode) {
         getState().tooltipContentMode = Objects.requireNonNull(contentMode);
@@ -302,7 +302,7 @@ public class MapLayout<T> extends AbstractLayout {
 
     /**
      * Get current tooltip content mode
-     * @return
+     * @return Current content mode of tooltips
      */
     public ContentMode getTooltipContentMode() {
         return getState().tooltipContentMode;

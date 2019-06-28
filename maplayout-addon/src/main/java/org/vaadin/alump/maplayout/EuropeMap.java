@@ -82,8 +82,8 @@ public class EuropeMap extends MapLayout<EuropeanCountry> {
 
     /**
      * Remove style value from country
-     * @param country
-     * @param style
+     * @param country Country
+     * @param style Style removed
      */
     public void removeCountryStyle(EuropeanCountry country, String style) {
         removeElementStyle(getElementID(country), style);
