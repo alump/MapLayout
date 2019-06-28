@@ -35,6 +35,7 @@ public class DemoUI extends UI {
         navigator.addView(WorldView.VIEW_NAME, WorldView.class);
         navigator.addView(USView.VIEW_NAME, USView.class);
         navigator.addView(EuropeView.VIEW_NAME, EuropeView.class);
+        navigator.addView(EuropeChartView.VIEW_NAME, EuropeChartView.class);
         navigator.setErrorView(MenuView.class);
     }
 }

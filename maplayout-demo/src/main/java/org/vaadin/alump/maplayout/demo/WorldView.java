@@ -4,10 +4,7 @@ import com.neovisionaries.i18n.CountryCode;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.ui.*;
-import org.vaadin.alump.maplayout.MapColors;
-import org.vaadin.alump.maplayout.MapLayout;
-import org.vaadin.alump.maplayout.MapLayoutClickEvent;
-import org.vaadin.alump.maplayout.WorldMap;
+import org.vaadin.alump.maplayout.*;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -27,7 +24,8 @@ public class WorldView extends VerticalLayout implements View {
         map.setAddTitles(false);
         map.setStyleNamesToItems(MapColors.GREEN, CountryCode.FI, CountryCode.US, CountryCode.DE);
         map.setStyleNamesToItems(MapColors.YELLOW, CountryCode.AR, CountryCode.PL);
-        map.setWidth(100, Unit.PERCENTAGE);
+        map.setWidth(1000, Unit.PIXELS);
+        map.setHeight(Math.round(1000.0 / WorldMap.DEFAULT_ASPECT_RATIO), Unit.PIXELS);
 
         HorizontalLayout buttons = new HorizontalLayout();
         buttons.setSpacing(true);

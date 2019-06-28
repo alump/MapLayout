@@ -75,4 +75,73 @@
 		margin-top: -75px;
 	}
 
+	.demo-europe {
+		.title {
+			font-size: 30px;
+			font-family: cursive;
+		}
+		.arrow {
+			color: red;
+			font-size: 24px;
+			text-shadow: 0px 0px 2px rgba(0,0,0,0.2);
+			animation: maplayout-spin 2s linear infinite;
+		}
+	}
+
+	.demo-europe-chart {
+
+		.country {
+			fill-opacity: 0.85;
+
+			&:hover {
+				fill-opacity: 1.0;
+			}
+		}
+
+		.legend-box {
+			position: relative;
+			display: block;
+			border: 1px solid black;
+			background: white;
+			width: 200px;
+			height: 100px;
+
+			.legend-title {
+				display: block;
+				position: absolute;
+				top: 5px;
+				left: 5px;
+				right: 5px;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				color: black;
+				text-align: center;
+				font-weight: bold;
+			}
+
+			.legend-gradient {
+				display: block;
+				position: absolute;
+				width: 20px;
+				top: 30px;
+				left: 5px;
+				bottom: 5px;
+				background: unquote("linear-gradient(to bottom, #ff0000 0%,#000000 100%)");
+			}
+
+			.legend-max-label {
+				color: black;
+				position: absolute;
+				top: 30px;
+				left: 30px;
+			}
+
+			.legend-min-label {
+				color: black;
+				position: absolute;
+				bottom: 5px;
+				left: 30px;
+			}
+		}
+	}
 }

@@ -3,6 +3,7 @@ package org.vaadin.alump.maplayout;
 import com.vaadin.server.Resource;
 
 import com.vaadin.shared.Registration;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.AbstractLayout;
 import com.vaadin.ui.Component;
 import org.vaadin.alump.maplayout.client.shared.*;
@@ -23,7 +24,15 @@ public class MapLayout<T> extends AbstractLayout {
     private Set<Component> childComponents = new LinkedHashSet();
     private MapIdProvider<T> mapIdProvider = null;
 
+    private Double viewportCoordinates[] = null;
+
     private MapLayoutServerRpc serverRpc = new MapLayoutServerRpc() {
+
+        @Override
+        public void currentViewport(double fromX, double fromY, double toX, double toY) {
+            viewportCoordinates = new Double[]{fromX, fromY, toX, toY};
+        }
+
         @Override
         public void onClientSideError(String message) {
             System.err.println("Client side error: " + message);
@@ -55,6 +64,13 @@ public class MapLayout<T> extends AbstractLayout {
         this.mapIdProvider = Objects.requireNonNull(mapIdProvider);
     }
 
+    @Override
+    public void detach() {
+        super.detach();
+        viewportCoordinates = null;
+    }
+
+    @Override
     public void beforeClientResponse(boolean initial) {
         if(getState(false).mapResource == null) {
             throw new IllegalStateException("Background resource not defined");
@@ -266,5 +282,61 @@ public class MapLayout<T> extends AbstractLayout {
 
     protected static String getColor(int red, int green, int blue) {
         return "#" + getHex(red) + getHex(green) + getHex(blue);
+    }
+
+    /**
+     * Returns coordinates of viewport, if that has been received from client side
+     * @return Viewport coordinates, or empty if value not yet received from client side
+     */
+    public Optional<Double[]> getViewportCoordinates() {
+        return Optional.ofNullable(viewportCoordinates).map(coords -> Arrays.copyOf(coords, coords.length));
+    }
+
+    /**
+     * Define content mode of tooltips
+     * @param contentMode
+     */
+    public void setTooltipContentMode(ContentMode contentMode) {
+        getState().tooltipContentMode = Objects.requireNonNull(contentMode);
+    }
+
+    /**
+     * Get current tooltip content mode
+     * @return
+     */
+    public ContentMode getTooltipContentMode() {
+        return getState().tooltipContentMode;
+    }
+
+    /**
+     * Remove tooltip from item
+     * @param item Item
+     */
+    public void removeTooltip(T item) {
+        setTooltip(item, null);
+    }
+
+    /**
+     * Define tooltip for given item
+     * @param item Item
+     * @param tooltip Tooltip value for given item. If null or empty will remove tooltip
+     */
+    public void setTooltip(T item, String tooltip) {
+        String elementId = getElementID(item);
+        if(elementId == null) {
+            throw new IllegalArgumentException("Failed to find item '" + item + "' from Map Layout");
+        }
+        if(tooltip != null && !tooltip.isEmpty()) {
+            getState(true).tooltips.put(elementId, tooltip);
+        } else {
+            getState(true).tooltips.remove(elementId);
+        }
+    }
+
+    /**
+     * Remove all tooltips
+     */
+    public void removeAllTooltips() {
+        getState(false).tooltips.clear();
     }
 }

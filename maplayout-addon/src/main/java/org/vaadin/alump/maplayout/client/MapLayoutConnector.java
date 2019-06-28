@@ -1,20 +1,23 @@
 package org.vaadin.alump.maplayout.client;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.user.client.ui.Widget;
 import com.vaadin.client.ComponentConnector;
 import com.vaadin.client.ConnectorHierarchyChangeEvent;
 import com.vaadin.client.MouseEventDetailsBuilder;
-import com.vaadin.client.communication.RpcProxy;
+import com.vaadin.client.TooltipInfo;
 import com.vaadin.client.communication.StateChangeEvent;
 import com.vaadin.client.ui.AbstractClickEventHandler;
 import com.vaadin.client.ui.AbstractLayoutConnector;
 import com.vaadin.shared.MouseEventDetails;
 import com.vaadin.shared.ui.Connect;
+import com.vaadin.shared.ui.ErrorLevel;
 import org.vaadin.alump.maplayout.MapLayout;
 import org.vaadin.alump.maplayout.client.shared.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 /**
@@ -26,7 +29,6 @@ public class MapLayoutConnector extends AbstractLayoutConnector {
 
     private final static Logger LOGGER = Logger.getLogger(MapLayoutConnector.class.getName());
 
-    MapLayoutServerRpc rpc = RpcProxy.create(MapLayoutServerRpc.class, this);
     MapLayoutClickHandler clickEventHandler;
 
     protected final MapLayoutClientRpc clientRpc = new MapLayoutClientRpc() {
@@ -42,6 +44,12 @@ public class MapLayoutConnector extends AbstractLayoutConnector {
             getState().childCoordinates.forEach((child, coord) -> {
                getWidget().move(((ComponentConnector)child).getWidget(), coord.x, coord.y);
             });
+
+            Double[] viewport = getWidget().getViewport();
+            if(viewport != null) {
+                MapLayoutConnector.this.getRpcProxy(MapLayoutServerRpc.class).currentViewport(
+                        viewport[0], viewport[1], viewport[2], viewport[3]);
+            }
         }
     };
 
@@ -54,6 +62,48 @@ public class MapLayoutConnector extends AbstractLayoutConnector {
     protected void init() {
         super.init();
         getWidget().setListener(widgetListener);
+    }
+
+    @Override
+    public boolean hasTooltip() {
+        return true;
+    }
+
+    @Override
+    public TooltipInfo getTooltipInfo(Element element) {
+        consoleLog("getToolInfo called");
+        if(!getState().tooltips.isEmpty()) {
+            consoleLog("getToolInfo called 1");
+            List<String> elementIds = getWidget().resolveElementIds(element);
+            if(elementIds != null && !elementIds.isEmpty()) {
+
+                consoleLog("getToolInfo called 2");
+
+                Optional<String> message = elementIds.stream().filter(id -> getState().tooltips.containsKey(id))
+                        .map(id -> getState().tooltips.get(id)).filter(value -> value != null && !value.isEmpty())
+                        .findFirst();
+
+                if(message.isPresent()) {
+                    consoleLog("getToolInfo called 3");
+                    return createTooltipInfo(message.get());
+                }
+            }
+        }
+
+        if(super.hasTooltip()) {
+            return super.getTooltipInfo(element);
+        } else {
+            return null;
+        }
+    }
+
+    private TooltipInfo createTooltipInfo(String content) {
+        TooltipInfo info = new TooltipInfo();
+        info.setContentMode(getState().tooltipContentMode);
+        info.setTitle(content);
+        info.setIdentifier(this);
+        info.setErrorLevel(ErrorLevel.INFO);
+        return info;
     }
 
     @Override
@@ -162,4 +212,8 @@ public class MapLayoutConnector extends AbstractLayoutConnector {
             event.stopPropagation();
         }
     }
+
+    public static native void consoleLog(String msg) /*-{
+        console.log(msg);
+    }-*/;
 }

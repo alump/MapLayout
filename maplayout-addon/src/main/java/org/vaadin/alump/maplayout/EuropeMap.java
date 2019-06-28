@@ -10,7 +10,15 @@ import java.util.Optional;
  */
 public class EuropeMap extends MapLayout<EuropeanCountry> {
 
+    // Metadata of map (TODO: move to client query, to remove need of manual updates and allow to get currently
+    // applied values)
+    public final static double DEFAULT_VIEWPORT_WIDTH = 9938.0;
+    public final static double DEFAULT_VIEWPORT_HEIGHT = 7945.0;
+    public final static double DEFAULT_ASPECT_RATIO = DEFAULT_VIEWPORT_WIDTH / DEFAULT_VIEWPORT_HEIGHT;
+
     public final static String SMOOTH_COLOR_TRANSITION_STYLENAME = "smooth-color-transition";
+    public final static String HIGHLIGHT_HOVER_STYLENAME = "highlight-hover";
+    public final static String CLICKABLE_STYLENAME = "clickable";
 
     public EuropeMap() {
         // Using theme resource with static URL to allow caching on client side (large file)

@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.XMLParser;
+import com.vaadin.client.VTooltip;
 
 import java.util.*;
 import java.util.logging.Logger;
@@ -51,6 +52,7 @@ public class MapLayoutWidget extends ComplexPanel {
     }
 
     public void setMap(String url) {
+        addStyleName("maplayout-loading");
         RequestBuilder httpClient = new RequestBuilder(RequestBuilder.GET, url);
 
         try {
@@ -112,8 +114,36 @@ public class MapLayoutWidget extends ComplexPanel {
 
         currentMapElement = injectInto(getElement(), root);
 
+        //injectTooltipElement(currentMapElement, root);
+
         currentMapElement.setId("maplayout-addon-" + (++widgetCounter));
+
+        removeStyleName("maplayout-loading");
     }
+
+    /*
+    private Element injectTooltipElement(Element mapElement, com.google.gwt.xml.client.Node source) {
+        if(this.tooltipWrapper != null) {
+            tooltipWrapper.removeFromParent();
+        }
+
+        DivElement tooltipElement = Document.get().createDivElement();
+        tooltipElement.addClassName("maplayout-tooltip");
+
+        Element foreignObjectElement = createElementNS(source.getNamespaceURI(), "foreignObject");
+        foreignObjectElement.appendChild(tooltipElement);
+
+        addStyle(foreignObjectElement, "pointerEvents", "none");
+
+        mapElement.appendChild(foreignObjectElement);
+
+        tooltipElement.getStyle().setDisplay(Style.Display.NONE);
+
+        this.tooltipWrapper = foreignObjectElement;
+        this.tooltipElement = tooltipElement;
+        return tooltipElement;
+    }
+    */
 
     private Element injectInto(Element to, com.google.gwt.xml.client.Node source) {
         if(source.getNodeType() == Node.TEXT_NODE) {
@@ -278,9 +308,13 @@ public class MapLayoutWidget extends ComplexPanel {
     }
 
     public List<String> resolveElementIds(NativeEvent event) {
+        Element element = Element.as(event.getEventTarget());
+        return resolveElementIds(element);
+    }
+
+    public List<String> resolveElementIds(Element element) {
         List<String> itemIds = new ArrayList<>();
         try {
-            Element element = Element.as(event.getEventTarget());
             while (element != null && element != currentMapElement) {
                 if(element.hasAttribute("id")) {
                     itemIds.add(element.getAttribute("id"));
@@ -369,6 +403,21 @@ public class MapLayoutWidget extends ComplexPanel {
 
             String attrValue = minX + " " + minY + " " + width + " " + height;
             currentMapElement.setAttribute("viewBox", attrValue);
+
+            /*
+            if(tooltipWrapper != null) {
+                tooltipWrapper.setAttribute("width", Double.toString(width));
+                tooltipWrapper.setAttribute("height", Double.toString(height));
+            }
+            */
+        }
+    }
+
+    public Double[] getViewport() {
+        if(viewBoxMinX != null && viewBoxMinY != null && viewBoxWidth != null && viewBoxHeight != null) {
+            return new Double[] { viewBoxMinX, viewBoxMinY, viewBoxMinX + viewBoxWidth, viewBoxMinY + viewBoxHeight};
+        } else {
+            return null;
         }
     }
 }

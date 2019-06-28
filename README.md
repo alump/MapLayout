@@ -30,8 +30,11 @@ add-on. All version of maps included and used on this add-on are licensed Apache
 
 ## Release notes
 
-### Version 0.2.2 (TBD)
+### Version 0.3.0 (TBD 2019-XX-XX)
 - Malta was invisible on European map, fixed
+- Add support for tooltips (see Europe demo)
+- Add chart like demo
+- Update libraries providing countries to get new names for some countries
 
 ### Version 0.2.1 (2017-10-08)
 - Third map: Europe (countries)

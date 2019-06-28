@@ -7,64 +7,70 @@ import java.util.stream.Stream;
 
 public enum EuropeanCountry {
 
-    ALBANIA(CountryCode.AL, false),
-    ANDORRA(CountryCode.AD, false),
-    ARMENIA(CountryCode.AM, false),
-    AUSTRIA(CountryCode.AT, true),
-    AZERBAIJAN(CountryCode.AZ, false),
-    BELARUS(CountryCode.BY, false),
-    BELGIUM(CountryCode.BE, true),
-    BOSNIA_AND_HERZEGOVINA(CountryCode.BA, false),
-    BULGARIA(CountryCode.BG, true),
-    CROATIA(CountryCode.HR, false),
-    CYPRUS(CountryCode.CY, true),
-    CZECH_REPUBLIC(CountryCode.CZ, true),
-    DENMARK(CountryCode.DK, true),
-    ESTONIA(CountryCode.EE, true),
-    FINLAND(CountryCode.FI, true),
-    FRANCE(CountryCode.FR, true),
-    GEORGIA(CountryCode.GE, false),
-    GERMANY(CountryCode.DE, true),
-    GREECE(CountryCode.GR, true),
-    HUNGARY(CountryCode.HU, true),
-    ICELAND(CountryCode.IS, false),
-    IRELAND(CountryCode.IE, true),
-    ITALY(CountryCode.IT, true),
-    KAZAKHSTAN(CountryCode.KZ, false),
-    KOSOVO(CountryCode.XK, false),
-    LATVIA(CountryCode.LV, true),
-    LIECHTENSTEIN(CountryCode.LI, true),
-    LITHUANIA(CountryCode.LT, true),
-    LUXEMBOURG(CountryCode.LU, true),
-    FYROM(CountryCode.MK, false),
-    MALTA(CountryCode.MT, true),
-    MOLDOVA(CountryCode.MD, false),
-    MONACO(CountryCode.MC, false),
-    MONTENEGRO(CountryCode.ME, false),
-    NETHERLANDS(CountryCode.NL, true),
-    NORWAY(CountryCode.NO, false),
-    POLAND(CountryCode.PL, true),
-    PORTUGAL(CountryCode.PT, true),
-    ROMANIA(CountryCode.RO, true),
-    RUSSIA(CountryCode.RU, false),
-    SAN_MARINO(CountryCode.SM, false),
-    SERBIA(CountryCode.RS, false),
-    SLOVAKIA(CountryCode.SK, true),
-    SLOVENIA(CountryCode.SI, true),
-    SPAIN(CountryCode.ES, true),
-    SWEDEN(CountryCode.SE, true),
-    SWITZERLAND(CountryCode.CH, false),
-    TURKEY(CountryCode.TR, false),
-    UKRAINE(CountryCode.UA, false),
-    UK(CountryCode.UK, true), // brexit fix required soon
-    VATICAN_CITY(CountryCode.VA, false);
+    ALBANIA(CountryCode.AL, false, "\uD83C\uDDE6\uD83C\uDDF1"),
+    ANDORRA(CountryCode.AD, false, "\uD83C\uDDE6\uD83C\uDDE9"),
+    ARMENIA(CountryCode.AM, false, "\uD83C\uDDE6\uD83C\uDDF2"),
+    AUSTRIA(CountryCode.AT, true, "\uD83C\uDDE6\uD83C\uDDF9"),
+    AZERBAIJAN(CountryCode.AZ, false, "\uD83C\uDDE6\uD83C\uDDFF"),
+    BELARUS(CountryCode.BY, false, "\uD83C\uDDE7\uD83C\uDDFE"),
+    BELGIUM(CountryCode.BE, true, "\uD83C\uDDE7\uD83C\uDDEA"),
+    BOSNIA_AND_HERZEGOVINA(CountryCode.BA, false, "\uD83C\uDDE7\uD83C\uDDE6"),
+    BULGARIA(CountryCode.BG, true, "\uD83C\uDDE7\uD83C\uDDEC"),
+    CROATIA(CountryCode.HR, false, "\uD83C\uDDED\uD83C\uDDF7"),
+    CYPRUS(CountryCode.CY, true, "\uD83C\uDDE8\uD83C\uDDFE"),
+    CZECHIA(CountryCode.CZ, true, "\uD83C\uDDE8\uD83C\uDDFF"),
+    DENMARK(CountryCode.DK, true, "\uD83C\uDDE9\uD83C\uDDF0"),
+    ESTONIA(CountryCode.EE, true, "\uD83C\uDDEA\uD83C\uDDEA"),
+    FINLAND(CountryCode.FI, true, "\uD83C\uDDEB\uD83C\uDDEE"),
+    FRANCE(CountryCode.FR, true, "\uD83C\uDDEB\uD83C\uDDF7"),
+    GEORGIA(CountryCode.GE, false, "\uD83C\uDDEC\uD83C\uDDEA"),
+    GERMANY(CountryCode.DE, true, "\uD83C\uDDE9\uD83C\uDDEA"),
+    GREECE(CountryCode.GR, true, "\uD83C\uDDEC\uD83C\uDDF7"),
+    HUNGARY(CountryCode.HU, true, "\uD83C\uDDED\uD83C\uDDFA"),
+    ICELAND(CountryCode.IS, false, "\uD83C\uDDEE\uD83C\uDDF8"),
+    IRELAND(CountryCode.IE, true, "\uD83C\uDDEE\uD83C\uDDEA"),
+    ITALY(CountryCode.IT, true, "\uD83C\uDDEE\uD83C\uDDF9"),
+    KAZAKHSTAN(CountryCode.KZ, false, "\uD83C\uDDF0\uD83C\uDDFF"),
+    KOSOVO(CountryCode.XK, false, "\uD83C\uDDFD\uD83C\uDDF0"),
+    LATVIA(CountryCode.LV, true, "\uD83C\uDDF1\uD83C\uDDFB"),
+    LIECHTENSTEIN(CountryCode.LI, true, "\uD83C\uDDF1\uD83C\uDDEE"),
+    LITHUANIA(CountryCode.LT, true, "\uD83C\uDDF1\uD83C\uDDF9"),
+    LUXEMBOURG(CountryCode.LU, true, "\uD83C\uDDF1\uD83C\uDDFA"),
+    NORTH_MACEDONIA(CountryCode.MK, false, "\uD83C\uDDF2\uD83C\uDDF0"),
+    MALTA(CountryCode.MT, true, "\uD83C\uDDF2\uD83C\uDDF9"),
+    MOLDOVA(CountryCode.MD, false, "\uD83C\uDDF2\uD83C\uDDE9"),
+    MONACO(CountryCode.MC, false, "\uD83C\uDDF2\uD83C\uDDE8"),
+    MONTENEGRO(CountryCode.ME, false, "\uD83C\uDDF2\uD83C\uDDEA"),
+    NETHERLANDS(CountryCode.NL, true, "\uD83C\uDDF3\uD83C\uDDF1"),
+    NORWAY(CountryCode.NO, false, "\uD83C\uDDF3\uD83C\uDDF4"),
+    POLAND(CountryCode.PL, true, "\uD83C\uDDF5\uD83C\uDDF1"),
+    PORTUGAL(CountryCode.PT, true, "\uD83C\uDDF5\uD83C\uDDF9"),
+    ROMANIA(CountryCode.RO, true, "\uD83C\uDDF7\uD83C\uDDF4"),
+    RUSSIA(CountryCode.RU, false, "\uD83C\uDDF7\uD83C\uDDFA"),
+    SAN_MARINO(CountryCode.SM, false, "\uD83C\uDDF8\uD83C\uDDF2"),
+    SERBIA(CountryCode.RS, false, "\uD83C\uDDF7\uD83C\uDDF8"),
+    SLOVAKIA(CountryCode.SK, true, "\uD83C\uDDF8\uD83C\uDDF0"),
+    SLOVENIA(CountryCode.SI, true, "\uD83C\uDDF8\uD83C\uDDEE"),
+    SPAIN(CountryCode.ES, true, "\uD83C\uDDEA\uD83C\uDDF8"),
+    SWEDEN(CountryCode.SE, true, "\uD83C\uDDF8\uD83C\uDDEA"),
+    SWITZERLAND(CountryCode.CH, false, "\uD83C\uDDE8\uD83C\uDDED"),
+    TURKEY(CountryCode.TR, false, "\uD83C\uDDF9\uD83C\uDDF7"),
+    UKRAINE(CountryCode.UA, false, "\uD83C\uDDFA\uD83C\uDDE6"),
+    UK(CountryCode.UK, true, "\uD83C\uDDEC\uD83C\uDDE7"), // brexit fix required soon... June 2019 update: nope, still waiting...
+    VATICAN_CITY(CountryCode.VA, false, "\uD83C\uDDFB\uD83C\uDDE6");
 
     private final CountryCode cc;
     private final boolean eu;
+    private final String flag;
 
     EuropeanCountry(CountryCode cc, boolean eu) {
+        this(cc, eu, null);
+    }
+
+    EuropeanCountry(CountryCode cc, boolean eu, String flag) {
         this.cc = cc;
         this.eu = eu;
+        this.flag = flag;
     }
 
     public boolean isLeavingEU() {
@@ -81,6 +87,10 @@ public enum EuropeanCountry {
 
     public String getISO3166() {
         return cc.name();
+    }
+
+    public String getFlag() {
+        return flag;
     }
 
     public static EuropeanCountry findForISO3166(String iso3166) {

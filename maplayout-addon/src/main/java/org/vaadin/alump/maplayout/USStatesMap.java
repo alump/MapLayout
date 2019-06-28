@@ -9,6 +9,11 @@ import java.util.*;
  */
 public class USStatesMap extends MapLayout<USState> {
 
+    // These values are here if you want to play around with fixed sizing and calculate correct pixel sizes
+    public final static double DEFAULT_VIEWPORT_WIDTH = 9938;
+    public final static double DEFAULT_VIEWPORT_HEIGHT = 7945;
+    public final static double DEFAULT_ASPECT_RATIO = DEFAULT_VIEWPORT_WIDTH / DEFAULT_VIEWPORT_HEIGHT;
+
     public final static String HIDE_TEXTS_STYLESNAME = "hide-texts";
     public final static String HIDE_PUERTO_RICO_STYLESNAME = "hide-pr";
     public final static String SMOOTH_COLOR_TRANSITION_STYLENAME = "smooth-color-transition";

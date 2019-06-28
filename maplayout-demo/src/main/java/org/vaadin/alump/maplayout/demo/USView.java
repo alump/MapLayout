@@ -25,7 +25,8 @@ public class USView extends VerticalLayout implements View {
         map = new USStatesMap();
         map.addStyleName(USStatesMap.SMOOTH_COLOR_TRANSITION_STYLENAME);
         map.addStyleName(MapLayout.TRANSPARENT_BG_STYLENAME);
-        map.setWidth(600, Unit.PIXELS);
+        map.setWidth(800, Unit.PIXELS);
+        map.setHeight(Math.round(800.0 / USStatesMap.DEFAULT_ASPECT_RATIO), Unit.PIXELS);
 
         map.addMapLayoutClickListener(this::mapClicked);
 

@@ -1,7 +1,9 @@
 package org.vaadin.alump.maplayout.demo;
 
+import com.vaadin.data.HasValue;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
 import org.vaadin.alump.maplayout.*;
 
@@ -18,10 +20,16 @@ public class EuropeView extends VerticalLayout implements View {
 
     public EuropeView() {
         map = new EuropeMap();
+        map.addStyleName("demo-europe");
         map.setWidth(800, Unit.PIXELS);
+        map.setHeight(Math.round(800.0 / EuropeMap.DEFAULT_ASPECT_RATIO), Unit.PIXELS);
         map.addStyleName(EuropeMap.SMOOTH_COLOR_TRANSITION_STYLENAME);
         map.addStyleName(MapLayout.TRANSPARENT_BG_STYLENAME);
+        map.addStyleName(EuropeMap.CLICKABLE_STYLENAME);
         map.addMapLayoutClickListener(this::onMapLayoutClicked);
+
+        map.setTooltip(EuropeanCountry.FINLAND, "At start, only <b>Finland</b> has tooltip");
+        map.setTooltipContentMode(ContentMode.HTML);
 
         addComponents(createTopBar(), map);
     }
@@ -46,8 +54,48 @@ public class EuropeView extends VerticalLayout implements View {
         Button eu = new Button("EU to blue");
         eu.addClickListener(e -> highlightEU());
 
-        bar.addComponents(menu, greenIt, shade, eu, clear);
+        CheckBox overlay = new CheckBox("Overlay components");
+        overlay.addValueChangeListener(this::overlayChanged);
+
+        CheckBox tooltips = new CheckBox("Tooltips");
+        tooltips.addValueChangeListener(this::tooltipsChanged);
+
+        bar.addComponents(menu, greenIt, shade, eu, clear, overlay, tooltips);
+        bar.setComponentAlignment(overlay, Alignment.BOTTOM_CENTER);
+        bar.setComponentAlignment(tooltips, Alignment.BOTTOM_CENTER);
         return bar;
+    }
+
+    private void tooltipsChanged(HasValue.ValueChangeEvent<Boolean> event) {
+        if(event.getValue()) {
+            map.addStyleName(EuropeMap.HIGHLIGHT_HOVER_STYLENAME);
+            map.setTooltipContentMode(ContentMode.TEXT);
+            EuropeanCountry.stream().forEach(ec -> {
+                String tooltip = ec.getFlag() + " " + ec.getCountryCode().getName();
+                map.setTooltip(ec, tooltip);
+            });
+        } else {
+            map.removeStyleName(EuropeMap.HIGHLIGHT_HOVER_STYLENAME);
+            map.removeAllTooltips();
+        }
+    }
+
+    private void overlayChanged(HasValue.ValueChangeEvent<Boolean> event) {
+        if(event.getValue()) {
+            Label label = new Label("Map of Europe");
+            label.addStyleName("title");
+            map.addComponentToViewBox(label, 200.0, 200.0);
+
+            Label icon = new Label(VaadinIcons.LOCATION_ARROW.getHtml(), ContentMode.HTML);
+            icon.addStyleName("arrow");
+            map.addComponentToViewBox(icon, 5400.0, 2800.0);
+
+            Button button = new Button("Highlight Brexit",
+                    e -> map.setCountryColor(EuropeanCountry.UK, 0, 0, 0));
+            map.addComponentToViewBox(button, 422.0, 3200.0);
+        } else {
+            map.removeAllComponents();
+        }
     }
 
     private void clearFillColors() {
@@ -100,7 +148,7 @@ public class EuropeView extends VerticalLayout implements View {
             } else {
                 map.clearCountryColor(code);
             }
-            map.setCountryColor(code, 255, 255, 0);
+            greens.remove(code);
         } else {
             Notification.show("Click to X:"
                     + event.getClientX() + " "

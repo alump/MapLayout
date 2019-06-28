@@ -4,12 +4,16 @@ import com.neovisionaries.i18n.CountryCode;
 import com.vaadin.server.ThemeResource;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * World map with countries
  */
 public class WorldMap extends MapLayout<CountryCode> {
+
+    // These values are here if you want to play around with fixed sizing and calculate correct pixel sizes
+    public final static int DEFAULT_VIEWPORT_WIDTH_PX = 2446;
+    public final static int DEFAULT_VIEWPORT_HEIGTH_PX = 1383;
+    public final static double DEFAULT_ASPECT_RATIO = ((double)DEFAULT_VIEWPORT_WIDTH_PX) / ((double)DEFAULT_VIEWPORT_HEIGTH_PX);
 
     public final static String SMOOTH_COLOR_TRANSITION_STYLENAME = "smooth-color-transition";
 
