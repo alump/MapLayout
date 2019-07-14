@@ -35,6 +35,7 @@ add-on. All version of maps included and used on this add-on are licensed Apache
 - Add support for tooltips (see Europe demo)
 - Add chart like demo
 - Update libraries providing countries to get new names for some countries
+- Fix Maven issues with JDK 11
 
 ### Version 0.2.1 (2017-10-08)
 - Third map: Europe (countries)
